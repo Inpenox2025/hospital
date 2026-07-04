@@ -29,7 +29,7 @@ module.exports = async function handler(req, res) {
     // GET: View single patient
     if (req.method === 'GET') {
       try {
-        const rows = await sql`SELECT * FROM patients WHERE id = ${id}`;
+        const rows = await sql`SELECT * FROM patients WHERE id = ${parseInt(id)}`;
         if (rows.length === 0) return res.status(404).json({ error: 'Patient not found' });
         return res.status(200).json({ success: true, patient: rows[0] });
       } catch (error) {
@@ -55,7 +55,7 @@ module.exports = async function handler(req, res) {
             address = ${address || null},
             medical_history = ${medical_history || null},
             updated_at = NOW()
-          WHERE id = ${id}
+          WHERE id = ${parseInt(id)}
           RETURNING *
         `;
 
@@ -73,7 +73,7 @@ module.exports = async function handler(req, res) {
       }
 
       try {
-        const rows = await sql`DELETE FROM patients WHERE id = ${id} RETURNING id`;
+        const rows = await sql`DELETE FROM patients WHERE id = ${parseInt(id)} RETURNING id`;
         if (rows.length === 0) return res.status(404).json({ error: 'Patient not found' });
         return res.status(200).json({ success: true, message: 'Patient profile deleted successfully' });
       } catch (error) {

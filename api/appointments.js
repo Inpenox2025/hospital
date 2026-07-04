@@ -33,7 +33,7 @@ module.exports = async function handler(req, res) {
           SELECT a.*, p.full_name as patient_name, p.mobile_no as patient_mobile 
           FROM appointments a
           JOIN patients p ON a.patient_id = p.id
-          WHERE a.id = ${id}
+          WHERE a.id = ${parseInt(id)}
         `;
         if (rows.length === 0) return res.status(404).json({ error: 'Appointment not found' });
         return res.status(200).json({ success: true, appointment: rows[0] });
@@ -59,7 +59,7 @@ module.exports = async function handler(req, res) {
             purpose = ${purpose || null},
             fee = ${fee || 0.00},
             updated_at = NOW()
-          WHERE id = ${id}
+          WHERE id = ${parseInt(id)}
           RETURNING *
         `;
 
@@ -76,7 +76,7 @@ module.exports = async function handler(req, res) {
               ELSE 'unpaid'::varchar 
             END,
             updated_at = NOW()
-          WHERE appointment_id = ${id}
+          WHERE appointment_id = ${parseInt(id)}
         `;
 
         return res.status(200).json({ success: true, appointment: rows[0] });
@@ -92,7 +92,7 @@ module.exports = async function handler(req, res) {
       }
 
       try {
-        const rows = await sql`DELETE FROM appointments WHERE id = ${id} RETURNING id`;
+        const rows = await sql`DELETE FROM appointments WHERE id = ${parseInt(id)} RETURNING id`;
         if (rows.length === 0) return res.status(404).json({ error: 'Appointment not found' });
         return res.status(200).json({ success: true, message: 'Appointment deleted successfully' });
       } catch (error) {
@@ -113,11 +113,13 @@ module.exports = async function handler(req, res) {
           return res.status(400).json({ error: 'Patient ID, Doctor name, Date and Time are required' });
         }
 
+        const patientIdInt = parseInt(patient_id);
+
         const rows = await sql`
           INSERT INTO appointments (
             patient_id, doctor_name, appointment_date, appointment_time, status, purpose, fee, created_by
           ) VALUES (
-            ${patient_id}, ${doctor_name}, ${appointment_date}, ${appointment_time}, 
+            ${patientIdInt}, ${doctor_name}, ${appointment_date}, ${appointment_time}, 
             ${status || 'scheduled'}, ${purpose || null}, ${fee || 0.00}, ${user.id}
           ) RETURNING *
         `;
@@ -132,7 +134,7 @@ module.exports = async function handler(req, res) {
             INSERT INTO invoices (
               invoice_no, patient_id, appointment_id, description, amount, paid_amount, due_amount, status, created_by
             ) VALUES (
-              ${invNo}, ${patient_id}, ${appointment.id}, ${desc}, ${fee || 0.00}, 0.00, ${fee || 0.00}, 'unpaid', ${user.id}
+              ${invNo}, ${patientIdInt}, ${appointment.id}, ${desc}, ${fee || 0.00}, 0.00, ${fee || 0.00}, 'unpaid', ${user.id}
             )
           `;
         }
