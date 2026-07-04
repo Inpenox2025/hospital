@@ -52,7 +52,7 @@ module.exports = async function handler(req, res) {
         FROM invoices i
         JOIN patients p ON i.patient_id = p.id
         LEFT JOIN appointments a ON i.appointment_id = a.id
-        WHERE i.id = ${pdfId}
+        WHERE i.id = ${parseInt(pdfId)}
       `;
 
       if (rows.length === 0)
@@ -372,7 +372,7 @@ module.exports = async function handler(req, res) {
             SELECT i.*, p.full_name as patient_name, p.mobile_no as patient_mobile 
             FROM invoices i
             JOIN patients p ON i.patient_id = p.id
-            WHERE i.id = ${id}
+            WHERE i.id = ${parseInt(id)}
           `;
           if (rows.length === 0)
             return res.status(404).json({ error: "Invoice not found" });
@@ -410,7 +410,7 @@ module.exports = async function handler(req, res) {
               due_amount = ${dueAmount},
               payment_date = ${updatedStatus === "paid" || updatedStatus === "partially_paid" ? "NOW()::date" : null},
               updated_at = NOW()
-            WHERE id = ${id}
+            WHERE id = ${parseInt(id)}
             RETURNING *
           `;
 
@@ -444,7 +444,7 @@ module.exports = async function handler(req, res) {
 
         try {
           const rows =
-            await sql`DELETE FROM invoices WHERE id = ${id} RETURNING id`;
+            await sql`DELETE FROM invoices WHERE id = ${parseInt(id)} RETURNING id`;
           if (rows.length === 0)
             return res.status(404).json({ error: "Invoice not found" });
           return res
@@ -490,11 +490,14 @@ module.exports = async function handler(req, res) {
           }
           const dueAmt = totalAmt - paidAmt;
 
+          const patientIdInt = parseInt(patient_id);
+          const appointmentIdInt = appointment_id ? parseInt(appointment_id) : null;
+
           const rows = await sql`
             INSERT INTO invoices (
               invoice_no, patient_id, appointment_id, description, amount, paid_amount, due_amount, status, payment_mode, payment_date, created_by
             ) VALUES (
-              ${invNo}, ${patient_id}, ${appointment_id || null}, ${description}, ${totalAmt}, ${paidAmt}, ${dueAmt}, ${isPaid},
+              ${invNo}, ${patientIdInt}, ${appointmentIdInt}, ${description}, ${totalAmt}, ${paidAmt}, ${dueAmt}, ${isPaid},
               ${payment_mode || null}, ${isPaid === "paid" ? "NOW()::date" : null}, ${user.id}
             ) RETURNING *
           `;
