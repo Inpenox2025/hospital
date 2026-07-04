@@ -738,6 +738,29 @@ window.downloadInvoiceReceipt = async function(id) {
   }
 };
 
+window.printInvoiceReceipt = async function(id) {
+  try {
+    const res = await fetch(`${API_BASE}/invoices/export-pdf?id=${id}`, {
+      headers: { 'Authorization': `Bearer ${getToken()}` }
+    });
+
+    if (!res.ok) throw new Error('PDF render failed');
+
+    const blob = await res.blob();
+    const fileURL = URL.createObjectURL(blob);
+    
+    // Open in a new tab for direct browser viewing and printing
+    const printWindow = window.open(fileURL, '_blank');
+    if (!printWindow) {
+      showToast('Popup blocker prevented opening print window. Please allow popups.', 'error');
+    } else {
+      showToast('Opening print view...', 'success');
+    }
+  } catch (err) {
+    showToast('Failed to compile print receipt', 'error');
+  }
+};
+
 window.deleteInvoice = async function(id) {
   if (!confirm('Permanently delete this invoice? This will wipe the billing records!')) return;
   try {
