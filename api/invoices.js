@@ -63,7 +63,7 @@ module.exports = async function handler(req, res) {
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader(
         "Content-Disposition",
-        `attachment; filename="Receipt_${invoice.invoice_no}.pdf"`,
+        `inline; filename="Receipt_${invoice.invoice_no}.pdf"`,
       );
       doc.pipe(res);
 

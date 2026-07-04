@@ -237,13 +237,13 @@ async function loadPatients() {
 
       return `
         <tr>
-          <td><span style="color:var(--primary); font-weight:600;">#${p.id}</span></td>
-          <td><strong>${esc(p.full_name)}</strong></td>
-          <td>${esc(p.mobile_no || '—')}</td>
-          <td>${age} / ${gender}</td>
-          <td>${esc(p.email || '—')}</td>
-          <td style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${history}</td>
-          <td>
+          <td data-label="ID"><span style="color:var(--primary); font-weight:600;">#${p.id}</span></td>
+          <td data-label="Name"><strong>${esc(p.full_name)}</strong></td>
+          <td data-label="Mobile">${esc(p.mobile_no || '—')}</td>
+          <td data-label="Age / Gender">${age} / ${gender}</td>
+          <td data-label="Email">${esc(p.email || '—')}</td>
+          <td data-label="Key Medical Case History" style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${history}</td>
+          <td data-label="Actions">
             <button class="action-btn" onclick="editPatient(${p.id})" title="Edit Profile">✏️</button>
             ${isAdmin ? `<button class="action-btn" onclick="deletePatient(${p.id})" title="Delete Profile" style="color:var(--error)">🗑️</button>` : ''}
           </td>
@@ -384,15 +384,15 @@ async function loadAppointments() {
 
       return `
         <tr>
-          <td><span style="color:var(--primary); font-weight:600;">#${a.id}</span></td>
-          <td><strong>${esc(a.patient_name)}</strong><br><span style="font-size:11px; color:var(--text3);">${esc(a.patient_mobile)}</span></td>
-          <td>${esc(a.doctor_name)}</td>
-          <td>${date}</td>
-          <td><span style="font-family:monospace; font-weight:600;">${time}</span></td>
-          <td>${esc(a.purpose || '—')}</td>
-          <td><strong>${fee}</strong></td>
-          <td><span class="badge badge-${badgeClass}">${a.status}</span></td>
-          <td>
+          <td data-label="ID"><span style="color:var(--primary); font-weight:600;">#${a.id}</span></td>
+          <td data-label="Patient Name"><strong>${esc(a.patient_name)}</strong><br><span style="font-size:11px; color:var(--text3);">${esc(a.patient_mobile)}</span></td>
+          <td data-label="Doctor Consultant">${esc(a.doctor_name)}</td>
+          <td data-label="Visit Date">${date}</td>
+          <td data-label="Time slot"><span style="font-family:monospace; font-weight:600;">${time}</span></td>
+          <td data-label="Purpose">${esc(a.purpose || '—')}</td>
+          <td data-label="Fee Amount"><strong>${fee}</strong></td>
+          <td data-label="Status"><span class="badge badge-${badgeClass}">${a.status}</span></td>
+          <td data-label="Actions">
             ${showActions ? `<button class="action-btn" onclick="completeAppointment(${a.id})" title="Mark Visit Completed">✅</button>` : ''}
             <button class="action-btn" onclick="editAppointment(${a.id})" title="Edit Details">✏️</button>
             ${isAdmin ? `<button class="action-btn" onclick="deleteAppointment(${a.id})" title="Delete Appointment" style="color:var(--error)">🗑️</button>` : ''}
