@@ -801,11 +801,11 @@ async function loadStaff() {
 
       return `
         <tr>
-          <td><span style="color:var(--primary); font-weight:600;">#${u.id}</span></td>
-          <td><strong>${esc(u.username)}</strong> ${isSelf ? '<span style="font-size:10px; background-color:var(--primary-glow); padding:2px 6px; border-radius:4px; margin-left:6px; color:var(--primary-dark);">You</span>' : ''}</td>
-          <td><span style="text-transform:uppercase; font-size:11px; font-weight:600; color:var(--text2);">${u.role}</span></td>
-          <td>${dateCreated}</td>
-          <td>
+          <td data-label="User ID"><span style="color:var(--primary); font-weight:600;">#${u.id}</span></td>
+          <td data-label="Staff Username"><strong>${esc(u.username)}</strong> ${isSelf ? '<span style="font-size:10px; background-color:var(--primary-glow); padding:2px 6px; border-radius:4px; margin-left:6px; color:var(--primary-dark);">You</span>' : ''}</td>
+          <td data-label="Role Account Type"><span style="text-transform:uppercase; font-size:11px; font-weight:600; color:var(--text2);">${u.role}</span></td>
+          <td data-label="Created Date">${dateCreated}</td>
+          <td data-label="Actions">
             <button class="action-btn" onclick="editStaff(${u.id})" title="Reset Password / Role">✏️</button>
             ${!isSelf ? `<button class="action-btn" onclick="deleteStaff(${u.id})" title="Delete Account" style="color:var(--error)">🗑️</button>` : ''}
           </td>
