@@ -72,7 +72,7 @@ module.exports = async function handler(req, res) {
         .fontSize(22)
         .font("Helvetica-Bold")
         .fillColor("#0d9488")
-        .text("RADHA GOVIND CARE HOSPITAL", { align: "center" });
+        .text(" CARE HOSPITAL", { align: "center" });
       doc
         .fontSize(9)
         .font("Helvetica")
@@ -351,12 +351,10 @@ module.exports = async function handler(req, res) {
       doc.end();
     } catch (error) {
       console.error("PDF receipt export error:", error);
-      return res
-        .status(500)
-        .json({
-          error: "Failed to generate PDF receipt",
-          details: error.message,
-        });
+      return res.status(500).json({
+        error: "Failed to generate PDF receipt",
+        details: error.message,
+      });
     }
   }
 
@@ -429,12 +427,10 @@ module.exports = async function handler(req, res) {
 
           return res.status(200).json({ success: true, invoice: rows[0] });
         } catch (error) {
-          return res
-            .status(500)
-            .json({
-              error: "Failed to update invoice reconciliation",
-              details: error.message,
-            });
+          return res.status(500).json({
+            error: "Failed to update invoice reconciliation",
+            details: error.message,
+          });
         }
       }
 
@@ -455,12 +451,10 @@ module.exports = async function handler(req, res) {
             .status(200)
             .json({ success: true, message: "Invoice deleted successfully" });
         } catch (error) {
-          return res
-            .status(500)
-            .json({
-              error: "Failed to delete invoice",
-              details: error.message,
-            });
+          return res.status(500).json({
+            error: "Failed to delete invoice",
+            details: error.message,
+          });
         }
       }
 
@@ -508,12 +502,10 @@ module.exports = async function handler(req, res) {
           return res.status(201).json({ success: true, invoice: rows[0] });
         } catch (error) {
           console.error("Create invoice error:", error);
-          return res
-            .status(500)
-            .json({
-              error: "Failed to create invoice",
-              details: error.message,
-            });
+          return res.status(500).json({
+            error: "Failed to create invoice",
+            details: error.message,
+          });
         }
       }
 
@@ -583,12 +575,10 @@ module.exports = async function handler(req, res) {
           });
         } catch (error) {
           console.error("List invoices error:", error);
-          return res
-            .status(500)
-            .json({
-              error: "Failed to fetch invoices",
-              details: error.message,
-            });
+          return res.status(500).json({
+            error: "Failed to fetch invoices",
+            details: error.message,
+          });
         }
       }
     }
