@@ -55,6 +55,10 @@ app.use((req, res, next) => {
 function runHandler(handlerPath) {
   return async (req, res) => {
     try {
+      if (req.params && req.params.id) {
+        req.query = req.query || {};
+        req.query.id = req.params.id;
+      }
       // Vercel serverless request body is already parsed by express.json
       const handler = require(handlerPath);
       // Execute the Vercel handler
