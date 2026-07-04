@@ -402,13 +402,15 @@ module.exports = async function handler(req, res) {
             updatedStatus = "unpaid";
           }
 
+          const paymentDateVal = (updatedStatus === "paid" || updatedStatus === "partially_paid") ? new Date().toISOString().split('T')[0] : null;
+
           const rows = await sql`
             UPDATE invoices SET
               status = ${updatedStatus},
               payment_mode = ${payment_mode || null},
               paid_amount = ${totalPaid},
               due_amount = ${dueAmount},
-              payment_date = ${updatedStatus === "paid" || updatedStatus === "partially_paid" ? "NOW()::date" : null},
+              payment_date = ${paymentDateVal},
               updated_at = NOW()
             WHERE id = ${parseInt(id)}
             RETURNING *
@@ -492,13 +494,14 @@ module.exports = async function handler(req, res) {
 
           const patientIdInt = parseInt(patient_id);
           const appointmentIdInt = appointment_id ? parseInt(appointment_id) : null;
+          const paymentDateVal = isPaid === "paid" ? new Date().toISOString().split('T')[0] : null;
 
           const rows = await sql`
             INSERT INTO invoices (
               invoice_no, patient_id, appointment_id, description, amount, paid_amount, due_amount, status, payment_mode, payment_date, created_by
             ) VALUES (
               ${invNo}, ${patientIdInt}, ${appointmentIdInt}, ${description}, ${totalAmt}, ${paidAmt}, ${dueAmt}, ${isPaid},
-              ${payment_mode || null}, ${isPaid === "paid" ? "NOW()::date" : null}, ${user.id}
+              ${payment_mode || null}, ${paymentDateVal}, ${user.id}
             ) RETURNING *
           `;
 

@@ -594,18 +594,19 @@ async function loadInvoices() {
 
       return `
         <tr>
-          <td><span style="font-family: monospace; font-weight: 600;">${esc(i.invoice_no)}</span></td>
-          <td><strong>${esc(i.patient_name)}</strong><br><span style="font-size:11px; color:var(--text3);">${esc(i.patient_mobile)}</span></td>
-          <td style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${esc(i.description)}">${esc(i.description)}</td>
-          <td><strong>${amount}</strong></td>
-          <td><strong style="color:var(--success);">${paid}</strong></td>
-          <td><strong style="color:${parseFloat(i.due_amount) > 0 ? 'var(--error)' : 'var(--success)'};">${due}</strong></td>
-          <td>${statusBadge}</td>
-          <td><strong>${payMode}</strong></td>
-          <td>${payDate}</td>
-          <td>
+          <td data-label="Invoice No"><span style="font-family: monospace; font-weight: 600;">${esc(i.invoice_no)}</span></td>
+          <td data-label="Patient Name"><strong>${esc(i.patient_name)}</strong><br><span style="font-size:11px; color:var(--text3);">${esc(i.patient_mobile)}</span></td>
+          <td data-label="Description" style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${esc(i.description)}">${esc(i.description)}</td>
+          <td data-label="Total Fee"><strong>${amount}</strong></td>
+          <td data-label="Paid Amount"><strong style="color:var(--success);">${paid}</strong></td>
+          <td data-label="Outstanding Due"><strong style="color:${parseFloat(i.due_amount) > 0 ? 'var(--error)' : 'var(--success)'};">${due}</strong></td>
+          <td data-label="Payment Status">${statusBadge}</td>
+          <td data-label="Payment Mode"><strong>${payMode}</strong></td>
+          <td data-label="Payment Date">${payDate}</td>
+          <td data-label="Actions">
             ${isReconAvailable ? `<button class="action-btn" onclick="openReconciliationModal(${i.id}, '${esc(i.invoice_no)}', ${i.amount}, ${i.due_amount})" title="Update Payment Reconciliation (Cash/Online)">💰 Reconcile</button>` : ''}
-            <button class="action-btn" onclick="downloadInvoiceReceipt(${i.id})" title="Print PDF Fee Receipt">📄 PDF</button>
+            <button class="action-btn" onclick="printInvoiceReceipt(${i.id})" title="Print Invoice / Fee Receipt">🖨️ Print</button>
+            <button class="action-btn" onclick="downloadInvoiceReceipt(${i.id})" title="Download PDF Fee Receipt">📄 PDF</button>
             ${isAdmin ? `<button class="action-btn" onclick="deleteInvoice(${i.id})" title="Delete Bill Record" style="color:var(--error)">🗑️</button>` : ''}
           </td>
         </tr>
