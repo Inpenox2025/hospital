@@ -139,10 +139,10 @@ function switchTab(tabName) {
 
   // Update Page Title
   const titles = {
-    overview: "Ozonature Overview & Reconciliation — Developed & Maintained by Inpenox",
-    patients: "Patients Registry Database",
-    appointments: "Consultation Appointments",
-    invoices: "Billing & Fee Receipts",
+    overview: "Ozonature Powered By Inspenox",
+    patients: "Ozonature Patients Registry",
+    appointments: "Ozonature Consultation Appointments",
+    invoices: "Ozonature Billing & Invoice Receipts",
     staff: "Ozonature Staff Management",
   };
   document.getElementById("pageTitle").textContent =
