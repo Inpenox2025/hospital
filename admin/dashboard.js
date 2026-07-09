@@ -139,11 +139,11 @@ function switchTab(tabName) {
 
   // Update Page Title
   const titles = {
-    overview: "Hospital Overview & Reconciliation",
+    overview: "Ozonature Overview & Reconciliation — Developed & Maintained by Inpenox",
     patients: "Patients Registry Database",
     appointments: "Consultation Appointments",
     invoices: "Billing & Fee Receipts",
-    staff: "Hospital Staff Management",
+    staff: "Ozonature Staff Management",
   };
   document.getElementById("pageTitle").textContent =
     titles[tabName] || "Dashboard";
