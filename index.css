@@ -952,37 +952,7 @@ textarea.form-control {
 .toast.error { background-color: var(--error); }
 
 /* Responsive Media Queries */
-@media (max-width: 992px) {
-  .hero .container {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 60px;
-  }
-  .hero p {
-    margin: 0 auto 32px auto;
-  }
-  .hero-actions {
-    justify-content: center;
-  }
-  .services-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-  .services-grid .service-card:nth-child(4),
-  .services-grid .service-card:nth-child(5) {
-    grid-column-start: auto;
-    grid-column-end: auto;
-    margin-left: 0;
-  }
-  .why-choose-us .container,
-  .testimonials-section .container {
-    grid-template-columns: 1fr;
-  }
-  .hospital-footer-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .nav-links {
     display: none;
     position: absolute;
@@ -1001,7 +971,31 @@ textarea.form-control {
   .nav-toggle {
     display: flex;
   }
-  .services-grid, .process-grid {
+  .hero .container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 60px;
+  }
+  .hero p {
+    margin: 0 auto 32px auto;
+  }
+  .hero-actions {
+    justify-content: center;
+  }
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  .services-grid .service-card:nth-child(4),
+  .services-grid .service-card:nth-child(5) {
+    grid-column-start: auto;
+    grid-column-end: auto;
+    margin-left: 0;
+  }
+  .why-choose-us .container,
+  .testimonials-section .container {
+    grid-template-columns: 1fr;
+  }
+  .process-grid {
     grid-template-columns: 1fr;
   }
   .hospital-footer-grid {

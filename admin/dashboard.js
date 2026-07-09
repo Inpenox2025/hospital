@@ -388,9 +388,10 @@ function renderCaseSheetHTML(p) {
 
   return `
     <div class="case-sheet-view">
+      <!-- 📄 PAGE 1: CLINICAL CASE SHEET -->
       <div class="case-sheet-header">
         <img src="/assets/ozonature%20logo.jpg" alt="Ozonature Logo" style="height: 65px; display: block; margin: 0 auto 12px auto; object-fit: contain;">
-        <div class="case-sheet-title">Patient Case Sheet & Protocol</div>
+        <div class="case-sheet-title">Patient Case Sheet</div>
       </div>
 
       <div class="case-sheet-section">
@@ -511,23 +512,63 @@ function renderCaseSheetHTML(p) {
         </div>
       </div>
 
-      <div class="case-sheet-section">
-        <div class="case-sheet-section-title">Treatment Plan & Protocol</div>
-        <div class="case-sheet-grid">
-          <div class="case-sheet-field">
-            <strong>Selected Protocol / Service</strong>
-            <span class="field-val" style="font-weight: 700; color: var(--primary-dark);">${displayVal(cs.protocol_service)}</span>
+      <div class="case-sheet-section" style="margin-top: 32px;">
+        <div class="case-sheet-section-title">Declaration & Signatures</div>
+        <p style="font-size: 11.5px; line-height: 1.5; color: var(--text2); font-style: italic; margin-bottom: 20px;">
+          I hereby declare that the medical information provided by me is true and complete to the best of my knowledge. I understand that withholding relevant medical information may affect the safety and effectiveness of my treatment. I authorize the healthcare professionals at Ozonature the Holistic Care to evaluate, examine, and provide appropriate wellness therapies and treatment procedures as clinically indicated.
+        </p>
+        
+        <div style="font-size: 13px; margin-bottom: 24px; background-color:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:12px;">
+          <strong>Consent Status:</strong> ${cs.consent_agreed ? '✔️ Agreed & Confirmed' : '❌ Pending / Not Signed'}
+        </div>
+
+        <div class="case-sheet-signatures">
+          <div class="sig-line">
+            ${displayVal(cs.patient_signature)}<br>
+            Patient Signature (Date: ${cs.signature_date ? formatDate(cs.signature_date) : '—'})
           </div>
-          <div class="case-sheet-field">
-            <strong>Provisional Diagnosis / Clinical Impression</strong>
-            <span class="field-val">${displayVal(cs.provisional_diagnosis)}</span>
+          <div class="sig-line">
+            ${displayVal(cs.consulting_doctor)}<br>
+            Consulting Doctor / Therapist Signature & Seal
+          </div>
+        </div>
+      </div>
+
+      <!-- ✂️ PAGE BREAK FOR PRINT -->
+      <div class="case-sheet-page-break"></div>
+
+      <!-- 📄 PAGE 2: CLINICAL PROTOCOL & TREATMENT PLAN -->
+      <div class="case-sheet-header">
+        <img src="/assets/ozonature%20logo.jpg" alt="Ozonature Logo" style="height: 65px; display: block; margin: 0 auto 12px auto; object-fit: contain;">
+        <div class="case-sheet-title">Patient Protocol & Treatment Plan</div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Patient Identification</div>
+        <div class="case-sheet-meta-grid">
+          <div class="meta-item"><strong>Patient Name:</strong> ${displayVal(p.full_name)}</div>
+          <div class="meta-item"><strong>Mobile Number:</strong> ${displayVal(p.mobile_no)}</div>
+          <div class="meta-item"><strong>Date:</strong> ${cs.signature_date ? formatDate(cs.signature_date) : formatDate(new Date().toISOString())}</div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Clinical Protocol Details</div>
+        <div class="case-sheet-grid">
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Selected Protocol / Service</strong>
+            <span class="field-val" style="font-weight: 700; color: var(--primary-dark); font-size: 15px;">${displayVal(cs.protocol_service)}</span>
           </div>
           <div class="case-sheet-field case-sheet-full-width">
             <strong>Protocol Description</strong>
             <span class="field-val">${displayVal(cs.protocol_description)}</span>
           </div>
           <div class="case-sheet-field case-sheet-full-width">
-            <strong>Recommended Therapies</strong>
+            <strong>Provisional Diagnosis / Clinical Impression</strong>
+            <span class="field-val" style="font-weight: 600; color: var(--text1);">${displayVal(cs.provisional_diagnosis)}</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Recommended Therapies Checklist</strong>
             ${displayList(checkedRecTherapies)}
           </div>
           <div class="case-sheet-field case-sheet-full-width">
@@ -535,7 +576,7 @@ function renderCaseSheetHTML(p) {
             <span class="field-val">${displayVal(cs.treatment_objectives)}</span>
           </div>
           <div class="case-sheet-field">
-            <strong>Other Conditions</strong>
+            <strong>Secondary / Other Conditions</strong>
             <span class="field-val">${displayVal(cs.other_conditions)}</span>
           </div>
           <div class="case-sheet-field">
@@ -559,19 +600,15 @@ function renderCaseSheetHTML(p) {
       </div>
 
       <div class="case-sheet-section" style="margin-top: 32px;">
-        <div class="case-sheet-section-title">Declaration & Signatures</div>
+        <div class="case-sheet-section-title">Protocol Authorization</div>
         <p style="font-size: 11.5px; line-height: 1.5; color: var(--text2); font-style: italic; margin-bottom: 20px;">
-          I hereby declare that the medical information provided by me is true and complete to the best of my knowledge. I understand that withholding relevant medical information may affect the safety and effectiveness of my treatment. I authorize the healthcare professionals at Ozonature the Holistic Care to evaluate, examine, and provide appropriate wellness therapies and treatment procedures as clinically indicated.
+          I acknowledge that the treatment protocol and therapies outlined above have been discussed with me. I agree to comply with the recommended treatment plan to ensure the best possible outcomes.
         </p>
-        
-        <div style="font-size: 13px; margin-bottom: 24px; background-color:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:12px;">
-          <strong>Consent Status:</strong> ${cs.consent_agreed ? '✔️ Agreed & Confirmed' : '❌ Pending / Not Signed'}
-        </div>
 
         <div class="case-sheet-signatures">
           <div class="sig-line">
             ${displayVal(cs.patient_signature)}<br>
-            Patient Signature (Date: ${cs.signature_date ? formatDate(cs.signature_date) : '—'})
+            Patient Signature
           </div>
           <div class="sig-line">
             ${displayVal(cs.consulting_doctor)}<br>

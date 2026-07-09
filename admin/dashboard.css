@@ -979,6 +979,13 @@ textarea.form-control {
   color: var(--primary-dark);
 }
 
+.case-sheet-page-break {
+  display: block;
+  height: 24px;
+  border-bottom: 2px dashed var(--border);
+  margin: 32px 0;
+}
+
 /* Print CSS override */
 @media print {
   body * {
@@ -1008,6 +1015,21 @@ textarea.form-control {
     padding: 0 !important;
     margin: 0 !important;
     transform: none !important;
+  }
+  #caseSheetViewModal .case-sheet-view {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+  }
+  .case-sheet-page-break {
+    page-break-before: always;
+    break-before: page;
+    height: 0 !important;
+    border: none !important;
+    margin: 0 !important;
   }
   .print-btn-container, .modal-header, .modal-footer, .modal-close {
     display: none !important;
