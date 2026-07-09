@@ -139,13 +139,13 @@ function switchTab(tabName) {
 
   // Update Page Title
   const titles = {
-    overview: "Ozonature Powered By Inspenox",
+    overview: 'Ozonature <span style="font-size: 12px; font-weight: 500; color: var(--text-muted || var(--text3)); margin-left: 10px; opacity: 0.85;">Powered by Inspenox</span>',
     patients: "Ozonature Patients Registry",
     appointments: "Ozonature Consultation Appointments",
     invoices: "Ozonature Billing & Invoice Receipts",
     staff: "Ozonature Staff Management",
   };
-  document.getElementById("pageTitle").textContent =
+  document.getElementById("pageTitle").innerHTML =
     titles[tabName] || "Dashboard";
 
   // Load correct tab contents
