@@ -1208,7 +1208,7 @@ async function loadInvoices() {
             <div style="display: flex; gap: 6px; flex-wrap: wrap;">
               ${isReconAvailable ? `<button class="action-btn btn-pay" onclick="openReconciliationModal(${i.id}, '${esc(i.invoice_no)}', ${i.amount}, ${i.due_amount})" title="Update Payment Reconciliation (Cash/Online)">Pay Now</button>` : ""}
               <button class="action-btn btn-print" onclick="printInvoiceReceipt(${i.id})" title="Print Invoice / Fee Receipt">Print</button>
-              <button class="action-btn btn-download" onclick="downloadInvoiceReceipt(${i.id})" title="Download PDF Fee Receipt">Download</button>
+              <button class="action-btn btn-download" onclick="downloadInvoiceReceipt(${i.id}, '${esc(i.patient_name)}')" title="Download PDF Fee Receipt">Download</button>
               ${isAdmin ? `<button class="action-btn btn-delete" onclick="deleteInvoice(${i.id})" title="Delete Bill Record">Delete</button>` : ""}
             </div>
           </td>
@@ -1343,7 +1343,7 @@ async function processReconciliation(e) {
   }
 }
 
-window.downloadInvoiceReceipt = async function (id) {
+window.downloadInvoiceReceipt = async function (id, patientName) {
   try {
     const res = await fetch(`${API_BASE}/invoices/export-pdf?id=${id}`, {
       headers: { Authorization: `Bearer ${getToken()}` },
@@ -1354,7 +1354,7 @@ window.downloadInvoiceReceipt = async function (id) {
     const blob = await res.blob();
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `Hospital_Receipt_${id}.pdf`;
+    a.download = `${patientName || "Patient"} - Ozonature.pdf`;
     a.click();
     URL.revokeObjectURL(a.href);
     showToast("Receipt PDF downloaded!", "success");

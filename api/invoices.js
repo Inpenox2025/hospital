@@ -65,7 +65,7 @@ module.exports = async function handler(req, res) {
       res.setHeader("Content-Type", "application/pdf");
       res.setHeader(
         "Content-Disposition",
-        `inline; filename="Receipt_${invoice.invoice_no}.pdf"`,
+        `attachment; filename="${invoice.patient_name} - Ozonature.pdf"`,
       );
       doc.pipe(res);
 
