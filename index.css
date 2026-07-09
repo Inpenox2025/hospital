@@ -221,7 +221,7 @@ a {
 /* ═══════════ HERO SECTION ═══════════ */
 .hero {
   padding: 160px 0 100px 0;
-  background: var(--bg-gradient);
+  background: var(--gradient-main);
   position: relative;
   overflow: hidden;
 }
@@ -234,12 +234,24 @@ a {
 }
 
 .hero-subtitle {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 1.5px;
-  color: var(--primary);
+  color: #ffffff;
+  opacity: 0.95;
   text-transform: uppercase;
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-subtitle::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 2px;
+  background-color: #ffffff;
 }
 
 .hero h1 {
@@ -247,20 +259,43 @@ a {
   font-weight: 800;
   line-height: 1.15;
   margin-bottom: 20px;
-  color: var(--text1);
+  color: #ffffff;
 }
 
 .hero p {
   font-size: 16px;
-  color: var(--text2);
+  color: #f0fdf9;
   margin-bottom: 32px;
   max-width: 540px;
+  opacity: 0.9;
 }
 
 .hero-actions {
   display: flex;
   gap: 16px;
   margin-bottom: 40px;
+}
+
+.hero .btn-primary {
+  background: #ffffff;
+  color: #0090f7;
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.hero .btn-primary:hover {
+  background: #e6fcf9;
+  transform: translateY(-2px);
+}
+
+.hero .btn-outline {
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.hero .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
 }
 
 /* Right Column (Doctor & Badges) */
