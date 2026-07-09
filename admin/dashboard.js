@@ -532,6 +532,10 @@ function renderCaseSheetHTML(p) {
             Consulting Doctor / Therapist Signature & Seal
           </div>
         </div>
+
+        <div style="text-align: center; font-size: 11px; color: #555555; margin-top: 24px; border-top: 1px dashed #dddddd; padding-top: 8px;">
+          Developed & Maintained by <a href="https://inpenox.in" target="_blank" style="color: #00bba8; text-decoration: none; font-weight: 700;">Inpenox</a>
+        </div>
       </div>
 
       <!-- ✂️ PAGE BREAK FOR PRINT -->
@@ -615,6 +619,10 @@ function renderCaseSheetHTML(p) {
             Consulting Doctor / Therapist Signature & Seal
           </div>
         </div>
+
+        <div style="text-align: center; font-size: 11px; color: #555555; margin-top: 24px; border-top: 1px dashed #dddddd; padding-top: 8px;">
+          Developed & Maintained by <a href="https://inpenox.in" target="_blank" style="color: #00bba8; text-decoration: none; font-weight: 700;">Inpenox</a>
+        </div>
       </div>
     </div>
   `;
@@ -628,6 +636,21 @@ window.viewCaseSheet = async function(id) {
       const p = data.patient;
       const html = renderCaseSheetHTML(p);
       document.getElementById('caseSheetViewContent').innerHTML = html;
+
+      // Dynamically configure PDF export filename defaults
+      const printBtn = document.getElementById('printCaseSheetBtn');
+      if (printBtn) {
+        printBtn.onclick = () => {
+          const originalTitle = document.title;
+          const patientNameClean = p.full_name ? p.full_name.trim() : 'Patient';
+          document.title = `${patientNameClean} - Ozonature`;
+          window.print();
+          setTimeout(() => {
+            document.title = originalTitle;
+          }, 1000);
+        };
+      }
+
       openModal('caseSheetViewModal');
     } else {
       showToast('Failed to retrieve case sheet data', 'error');

@@ -20,7 +20,13 @@ module.exports = async function handler(req, res) {
       }
 
       const sql = getSQL();
-      const rows = await sql`SELECT * FROM users WHERE username = ${username.trim()}`;
+      const identifier = username.trim();
+      const rows = await sql`
+        SELECT * FROM users 
+        WHERE username = ${identifier} 
+           OR phone = ${identifier} 
+           OR email = ${identifier}
+      `;
       if (rows.length === 0) {
         return res.status(401).json({ error: 'Invalid credentials' });
       }

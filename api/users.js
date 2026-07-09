@@ -31,11 +31,11 @@ module.exports = async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       if (id) {
-        const rows = await sql`SELECT id, username, role, created_at FROM users WHERE id = ${id}`;
+        const rows = await sql`SELECT id, username, email, phone, role, created_at FROM users WHERE id = ${id}`;
         if (rows.length === 0) return res.status(404).json({ error: 'User not found' });
         return res.status(200).json({ success: true, user: rows[0] });
       } else {
-        const rows = await sql`SELECT id, username, role, created_at FROM users ORDER BY created_at DESC`;
+        const rows = await sql`SELECT id, username, email, phone, role, created_at FROM users ORDER BY created_at DESC`;
         return res.status(200).json({ success: true, users: rows });
       }
     } catch (error) {
@@ -46,22 +46,27 @@ module.exports = async function handler(req, res) {
   // ══════ POST: Create New Staff Member ══════
   if (req.method === 'POST') {
     try {
-      const { username, password, role } = req.body;
+      const { username, password, role, email, phone } = req.body;
       if (!username || !password || !role) {
         return res.status(400).json({ error: 'Username, password and role are required' });
       }
 
-      // Check if user already exists
-      const existing = await sql`SELECT id FROM users WHERE username = ${username.trim()}`;
+      // Check if username, email or phone is already taken
+      const existing = await sql`
+        SELECT id FROM users 
+        WHERE username = ${username.trim()}
+           OR (phone IS NOT NULL AND phone != '' AND phone = ${phone ? phone.trim() : ''})
+           OR (email IS NOT NULL AND email != '' AND email = ${email ? email.trim() : ''})
+      `;
       if (existing.length > 0) {
-        return res.status(400).json({ error: 'Username is already taken' });
+        return res.status(400).json({ error: 'Username, Phone, or Email is already taken by another user' });
       }
 
       const hash = await bcrypt.hash(password, 10);
       const rows = await sql`
-        INSERT INTO users (username, password_hash, role)
-        VALUES (${username.trim()}, ${hash}, ${role})
-        RETURNING id, username, role, created_at
+        INSERT INTO users (username, password_hash, role, email, phone)
+        VALUES (${username.trim()}, ${hash}, ${role}, ${email ? email.trim() : null}, ${phone ? phone.trim() : null})
+        RETURNING id, username, email, phone, role, created_at
       `;
       return res.status(201).json({ success: true, user: rows[0] });
     } catch (error) {
@@ -69,20 +74,27 @@ module.exports = async function handler(req, res) {
     }
   }
 
-  // ══════ PUT: Update User (Role / Password Reset) ══════
+  // ══════ PUT: Update User (Role / Password Reset / Email / Phone) ══════
   if (req.method === 'PUT') {
     try {
       if (!id) return res.status(400).json({ error: 'User ID is required' });
-      const { username, password, role } = req.body;
+      const { username, password, role, email, phone } = req.body;
 
       if (!username || !role) {
         return res.status(400).json({ error: 'Username and role are required' });
       }
 
-      // Check if username is taken by another user
-      const existing = await sql`SELECT id FROM users WHERE username = ${username.trim()} AND id != ${id}`;
+      // Check if username, email or phone is taken by another user
+      const existing = await sql`
+        SELECT id FROM users 
+        WHERE id != ${id} AND (
+          username = ${username.trim()}
+          OR (phone IS NOT NULL AND phone != '' AND phone = ${phone ? phone.trim() : ''})
+          OR (email IS NOT NULL AND email != '' AND email = ${email ? email.trim() : ''})
+        )
+      `;
       if (existing.length > 0) {
-        return res.status(400).json({ error: 'Username is already taken' });
+        return res.status(400).json({ error: 'Username, Phone, or Email is already taken by another user' });
       }
 
       let rows;
@@ -92,17 +104,21 @@ module.exports = async function handler(req, res) {
           UPDATE users SET
             username = ${username.trim()},
             password_hash = ${hash},
-            role = ${role}
+            role = ${role},
+            email = ${email ? email.trim() : null},
+            phone = ${phone ? phone.trim() : null}
           WHERE id = ${id}
-          RETURNING id, username, role, created_at
+          RETURNING id, username, email, phone, role, created_at
         `;
       } else {
         rows = await sql`
           UPDATE users SET
             username = ${username.trim()},
-            role = ${role}
+            role = ${role},
+            email = ${email ? email.trim() : null},
+            phone = ${phone ? phone.trim() : null}
           WHERE id = ${id}
-          RETURNING id, username, role, created_at
+          RETURNING id, username, email, phone, role, created_at
         `;
       }
 

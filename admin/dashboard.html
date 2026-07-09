@@ -46,13 +46,17 @@
                 <span class="nav-icon">🚪</span> Logout
             </a>
         </nav>
-        <div class="sidebar-footer">
-            <div class="user-info" id="userInfo">
+        <div class="sidebar-footer" style="flex-direction: column; align-items: stretch; gap: 8px;">
+            <div class="user-info" id="userInfo" style="border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 8px; margin-bottom: 4px;">
                 <div class="user-avatar" id="headerAvatar">U</div>
                 <div>
                     <div class="user-name" id="userName">Staff Member</div>
                     <div class="user-role" id="userRole">nurse</div>
                 </div>
+            </div>
+            <div style="font-size: 10px; color: #8e9ea2; text-align: center; line-height: 1.4;">
+                Developed & Maintained by<br>
+                <a href="https://inpenox.in" target="_blank" style="color: #00bba8; font-weight: 600; text-decoration: none;">Inpenox</a>
             </div>
         </div>
     </aside>
@@ -884,7 +888,7 @@
             </div>
             <div class="modal-body">
                 <div class="print-btn-container">
-                    <button class="btn btn-primary" onclick="window.print()"><span style="margin-right:4px;">🖨️</span> Print Case Sheet</button>
+                    <button class="btn btn-primary" id="printCaseSheetBtn"><span style="margin-right:4px;">🖨️</span> Print Case Sheet</button>
                 </div>
                 <div id="caseSheetViewContent">
                     <!-- Dynamic Printable Content -->

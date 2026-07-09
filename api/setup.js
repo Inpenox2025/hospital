@@ -21,6 +21,10 @@ module.exports = async function handler(req, res) {
       )
     `;
 
+    // Migration: Add email and phone to users table if they don't exist
+    await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(100)`;
+    await sql`ALTER TABLE users ADD COLUMN IF NOT EXISTS phone VARCHAR(20)`;
+
     // 2. Create Patients Table
     await sql`
       CREATE TABLE IF NOT EXISTS patients (

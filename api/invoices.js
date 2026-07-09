@@ -71,18 +71,18 @@ module.exports = async function handler(req, res) {
       doc
         .fontSize(22)
         .font("Helvetica-Bold")
-        .fillColor("#0d9488")
-        .text(" CARE HOSPITAL", { align: "center" });
+        .fillColor("#00bba8")
+        .text("OZONATURE", { align: "center" });
       doc
         .fontSize(9)
         .font("Helvetica")
-        .fillColor("#64748b")
-        .text("24/7 Patient Care, Consultation & Diagnostics", {
+        .fillColor("#607377")
+        .text("THE HOLISTIC CARE", {
           align: "center",
         });
       doc
         .fontSize(9)
-        .text("Contact: +91 9988776655 | Email: support@radhagovindcare.com", {
+        .text("Contact: +91 8688932150 | Email: info@cfqlife.com", {
           align: "center",
         });
       doc.moveDown(0.8);
@@ -91,7 +91,7 @@ module.exports = async function handler(req, res) {
       doc
         .moveTo(50, doc.y)
         .lineTo(545, doc.y)
-        .strokeColor("#0d9488")
+        .strokeColor("#00bba8")
         .lineWidth(2)
         .stroke();
       doc.moveDown(1.2);
@@ -344,7 +344,7 @@ module.exports = async function handler(req, res) {
         .fontSize(8)
         .fillColor("#94a3b8")
         .text(
-          "This is a verified digital payment receipt from Care Hospital.",
+          "This is a verified digital payment receipt from Ozonature. Developed and Maintained by Inpenox (inpenox.in).",
           { align: "center" },
         );
 
