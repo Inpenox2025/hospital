@@ -298,6 +298,7 @@
                         <tr>
                             <th>User ID</th>
                             <th>Staff Username</th>
+                            <th>Contact Info</th>
                             <th>Role Account Type</th>
                             <th>Created Date</th>
                             <th>Actions</th>
@@ -305,7 +306,7 @@
                     </thead>
                     <tbody id="staffTableBody">
                         <tr>
-                            <td colspan="5" class="loading-cell"><span class="spinner"></span> Loading staff registry...
+                            <td colspan="6" class="loading-cell"><span class="spinner"></span> Loading staff registry...
                             </td>
                         </tr>
                     </tbody>
@@ -860,6 +861,16 @@
                             placeholder="Enter secure password" required>
                         <p id="staffPassHint" style="font-size:11px; color:var(--text3); margin-top:4px; display:none;">
                             Leave blank to keep existing password.</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="staff_email">Email Address</label>
+                        <input type="email" class="form-control" id="staff_email" name="email" placeholder="staff@ozonature.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="staff_phone">Mobile / Phone Number</label>
+                        <input type="tel" class="form-control" id="staff_phone" name="phone" placeholder="e.g. +91 9876543210">
                     </div>
 
                     <div class="form-group">

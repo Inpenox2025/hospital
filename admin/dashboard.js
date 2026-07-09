@@ -1056,15 +1056,15 @@ async function loadInvoices() {
           <td data-label="Description" style="max-width:200px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${esc(i.description)}">${esc(i.description)}</td>
           <td data-label="Total Fee"><strong>${amount}</strong></td>
           <td data-label="Paid Amount"><strong style="color:var(--success);">${paid}</strong></td>
-          <td data-label="Outstanding Due"><strong style="color:${parseFloat(i.due_amount) > 0 ? 'var(--error)' : 'var(--success)'};">${due}</strong></td>
+          <td data-label="Outstanding Due"><strong style="color:${parseFloat(i.due_amount) > 0 ? "var(--error)" : "var(--success)"};">${due}</strong></td>
           <td data-label="Payment Status">${statusBadge}</td>
           <td data-label="Payment Mode"><strong>${payMode}</strong></td>
           <td data-label="Payment Date">${payDate}</td>
           <td data-label="Actions">
-            ${isReconAvailable ? `<button class="action-btn" onclick="openReconciliationModal(${i.id}, '${esc(i.invoice_no)}', ${i.amount}, ${i.due_amount})" title="Update Payment Reconciliation (Cash/Online)">💰 Reconcile</button>` : ''}
+            ${isReconAvailable ? `<button class="action-btn btn btn-success" onclick="openReconciliationModal(${i.id}, '${esc(i.invoice_no)}', ${i.amount}, ${i.due_amount})" title="Update Payment Reconciliation (Cash/Online)">Pay Now</button>` : ""}
             <button class="action-btn" onclick="printInvoiceReceipt(${i.id})" title="Print Invoice / Fee Receipt">🖨️ Print</button>
             <button class="action-btn" onclick="downloadInvoiceReceipt(${i.id})" title="Download PDF Fee Receipt">📄 PDF</button>
-            ${isAdmin ? `<button class="action-btn" onclick="deleteInvoice(${i.id})" title="Delete Bill Record" style="color:var(--error)">🗑️</button>` : ''}
+            ${isAdmin ? `<button class="action-btn" onclick="deleteInvoice(${i.id})" title="Delete Bill Record" style="color:var(--error)">🗑️</button>` : ""}
           </td>
         </tr>
       `;
@@ -1241,13 +1241,13 @@ window.deleteInvoice = async function(id) {
 // ─────── Tab 5: Staff Management (Admin Only) ───────
 async function loadStaff() {
   const tbody = document.getElementById('staffTableBody');
-  tbody.innerHTML = '<tr><td colspan="5" class="loading-cell"><span class="spinner"></span> Loading staff logs...</td></tr>';
+  tbody.innerHTML = '<tr><td colspan="6" class="loading-cell"><span class="spinner"></span> Loading staff logs...</td></tr>';
 
   try {
     const res = await fetch(`${API_BASE}/users`, { headers: authHeaders() });
     const data = await res.json();
     if (!res.ok || !data.success) {
-      tbody.innerHTML = '<tr><td colspan="5" class="empty-cell">Access denied or loading failed.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="6" class="empty-cell">Access denied or loading failed.</td></tr>';
       return;
     }
 
@@ -1256,10 +1256,15 @@ async function loadStaff() {
       const dateCreated = formatDate(u.created_at);
       const isSelf = u.username === getUser().username;
 
+      const emailVal = u.email ? `<div style="font-size:12px; font-weight:500; color:var(--text2);">${esc(u.email)}</div>` : '';
+      const phoneVal = u.phone ? `<div style="font-size:11px; color:var(--text3);">${esc(u.phone)}</div>` : '';
+      const contactInfo = (emailVal || phoneVal) ? `${emailVal}${phoneVal}` : '<span style="color:var(--text3); font-style:italic;">—</span>';
+
       return `
         <tr>
           <td data-label="User ID"><span style="color:var(--primary); font-weight:600;">#${u.id}</span></td>
           <td data-label="Staff Username"><strong>${esc(u.username)}</strong> ${isSelf ? '<span style="font-size:10px; background-color:var(--primary-glow); padding:2px 6px; border-radius:4px; margin-left:6px; color:var(--primary-dark);">You</span>' : ''}</td>
+          <td data-label="Contact Info">${contactInfo}</td>
           <td data-label="Role Account Type"><span style="text-transform:uppercase; font-size:11px; font-weight:600; color:var(--text2);">${u.role}</span></td>
           <td data-label="Created Date">${dateCreated}</td>
           <td data-label="Actions">
@@ -1270,7 +1275,7 @@ async function loadStaff() {
       `;
     }).join('');
   } catch (err) {
-    tbody.innerHTML = '<tr><td colspan="5" class="empty-cell">Failed to fetch staff registry.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="6" class="empty-cell">Failed to fetch staff registry.</td></tr>';
   }
 }
 
@@ -1322,6 +1327,8 @@ window.editStaff = async function(id) {
       document.getElementById('staffModalTitle').textContent = 'Modify Staff Credentials';
       document.getElementById('staff_id').value = u.id;
       document.getElementById('staff_username').value = u.username;
+      document.getElementById('staff_email').value = u.email || '';
+      document.getElementById('staff_phone').value = u.phone || '';
       
       // Update form requirements for resets
       document.getElementById('staff_password').required = false;
