@@ -389,10 +389,7 @@ function renderCaseSheetHTML(p) {
   return `
     <div class="case-sheet-view">
       <div class="case-sheet-header">
-        <div class="case-sheet-logo">
-          🍃 OZONATURE
-        </div>
-        <div class="case-sheet-sub">THE HOLISTIC CARE</div>
+        <img src="/assets/ozonature%20logo.jpg" alt="Ozonature Logo" style="height: 65px; display: block; margin: 0 auto 12px auto; object-fit: contain;">
         <div class="case-sheet-title">Patient Case Sheet & Protocol</div>
       </div>
 
