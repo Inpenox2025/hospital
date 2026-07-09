@@ -1,6 +1,8 @@
 const { getSQL } = require("../shared/db");
 const jwt = require("jsonwebtoken");
 const PDFDocument = require("pdfkit");
+const path = require("path");
+const fs = require("fs");
 
 const JWT_SECRET =
   process.env.JWT_SECRET || "hospital-management-jwt-secret-key-2026";
@@ -68,11 +70,21 @@ module.exports = async function handler(req, res) {
       doc.pipe(res);
 
       // Hospital Header
-      doc
-        .fontSize(22)
-        .font("Helvetica-Bold")
-        .fillColor("#00bba8")
-        .text("OZONATURE", { align: "center" });
+      const logoPath = path.join(__dirname, "../assets/ozonature logo.jpg");
+      if (fs.existsSync(logoPath)) {
+        // Draw centered logo image
+        doc.image(logoPath, {
+          fit: [140, 50],
+          align: "center"
+        });
+        doc.moveDown(0.4);
+      } else {
+        doc
+          .fontSize(22)
+          .font("Helvetica-Bold")
+          .fillColor("#00bba8")
+          .text("OZONATURE", { align: "center" });
+      }
       doc
         .fontSize(9)
         .font("Helvetica")
@@ -82,7 +94,7 @@ module.exports = async function handler(req, res) {
         });
       doc
         .fontSize(9)
-        .text("Contact: +91 8688932150 | Email: info@cfqlife.com", {
+        .text("Contact: +91 8688932150", {
           align: "center",
         });
       doc.moveDown(0.8);
@@ -342,9 +354,19 @@ module.exports = async function handler(req, res) {
       doc.moveDown(2);
       doc
         .fontSize(8)
+        .font("Helvetica")
         .fillColor("#94a3b8")
         .text(
-          "This is a verified digital payment receipt from Ozonature. Developed and Maintained by Inpenox (inpenox.in).",
+          "This is a verified digital payment receipt from Ozonature.",
+          { align: "center" },
+        );
+      doc.moveDown(0.3);
+      doc
+        .fontSize(8.5)
+        .font("Helvetica-Bold")
+        .fillColor("#00bba8")
+        .text(
+          "Developed & Maintained by Inpenox (inpenox.in)",
           { align: "center" },
         );
 
