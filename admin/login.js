@@ -10,6 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
   if (token) {
     verifyAndRedirect(token);
   }
+
+  // Bind password toggle visibility action
+  const passwordInput = document.getElementById('password');
+  const passwordToggle = document.getElementById('passwordToggle');
+  if (passwordToggle && passwordInput) {
+    passwordToggle.addEventListener('click', () => {
+      const isPass = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isPass ? 'text' : 'password');
+      passwordToggle.textContent = isPass ? '🙈' : '👁️';
+    });
+  }
 });
 
 async function verifyAndRedirect(token) {
@@ -72,14 +83,14 @@ document.getElementById('setupDbLink').addEventListener('click', async (e) => {
   e.preventDefault();
   const errorMsg = document.getElementById('errorMsg');
   
-  errorMsg.style.color = '#0d9488';
+  errorMsg.style.color = '#00bba8';
   errorMsg.textContent = '⚙️ Initializing database tables, please wait...';
   
   try {
     const res = await fetch(`${API_BASE}/setup`, { method: 'POST' });
     const data = await res.json();
     if (res.ok && data.success) {
-      errorMsg.style.color = '#10b981';
+      errorMsg.style.color = '#20e383';
       errorMsg.textContent = '🎉 Setup complete! Try: admin / admin123';
     } else {
       errorMsg.style.color = '#ef4444';

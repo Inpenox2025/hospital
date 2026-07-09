@@ -3,11 +3,11 @@
    ═══════════════════════════════════════ */
 
 :root {
-  --primary: #0d9488;
-  --primary-hover: #0f766e;
-  --bg: #f8fafc;
-  --text: #0f172a;
-  --text-muted: #64748b;
+  --primary: #00bba8;
+  --primary-hover: #008d7e;
+  --bg: #f6fcfb;
+  --text: #0b1f24;
+  --text-muted: #607377;
   --border: #e2e8f0;
 }
 
