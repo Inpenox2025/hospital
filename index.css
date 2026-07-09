@@ -958,15 +958,52 @@ textarea.form-control {
     display: flex;
   }
   .hero .container {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column-reverse;
     text-align: center;
-    gap: 60px;
+    gap: 48px;
   }
   .hero p {
     margin: 0 auto 32px auto;
   }
   .hero-actions {
     justify-content: center;
+  }
+  .hero-image {
+    max-width: 280px;
+  }
+  .hero-bg-shape {
+    max-width: 310px;
+    max-height: 310px;
+  }
+  .floating-badge {
+    padding: 8px 12px;
+    gap: 8px;
+    border-radius: var(--radius-sm);
+  }
+  .badge-doctor {
+    top: 5%;
+    right: -10%;
+  }
+  .badge-shop {
+    top: 40%;
+    right: -14%;
+  }
+  .badge-experience {
+    bottom: 2%;
+    left: -14%;
+  }
+  .badge-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+  }
+  .badge-title {
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .badge-subtitle {
+    font-size: 9px;
   }
   .services-grid {
     gap: 24px;
@@ -977,6 +1014,17 @@ textarea.form-control {
   @media (max-width: 680px) {
     .service-card {
       flex: 0 0 100%;
+    }
+  }
+  @media (max-width: 480px) {
+    .badge-doctor {
+      right: -4%;
+    }
+    .badge-shop {
+      right: -6%;
+    }
+    .badge-experience {
+      left: -4%;
     }
   }
   .why-choose-us .container,
