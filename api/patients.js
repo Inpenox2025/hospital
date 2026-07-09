@@ -24,6 +24,13 @@ module.exports = async function handler(req, res) {
   const id = req.query.id;
   const sql = getSQL();
 
+  // Run soft migration to ensure the case_sheet_data column exists
+  try {
+    await sql`ALTER TABLE patients ADD COLUMN IF NOT EXISTS case_sheet_data TEXT`;
+  } catch (e) {
+    console.error("Migration error (can be ignored):", e);
+  }
+
   // ══════ SINGLE PATIENT OPERATIONS (if id is present) ══════
   if (id) {
     // GET: View single patient
@@ -40,7 +47,7 @@ module.exports = async function handler(req, res) {
     // PUT: Edit patient details (Both Nurse & Admin)
     if (req.method === 'PUT') {
       try {
-        const { full_name, date_of_birth, gender, mobile_no, email, address, medical_history } = req.body;
+        const { full_name, date_of_birth, gender, mobile_no, email, address, medical_history, case_sheet_data } = req.body;
         if (!full_name) {
           return res.status(400).json({ error: 'Full name is required' });
         }
@@ -54,6 +61,7 @@ module.exports = async function handler(req, res) {
             email = ${email || null},
             address = ${address || null},
             medical_history = ${medical_history || null},
+            case_sheet_data = ${case_sheet_data || null},
             updated_at = NOW()
           WHERE id = ${parseInt(id)}
           RETURNING *
@@ -89,17 +97,17 @@ module.exports = async function handler(req, res) {
     // POST: Add new patient (Nurse & Admin)
     if (req.method === 'POST') {
       try {
-        const { full_name, date_of_birth, gender, mobile_no, email, address, medical_history } = req.body;
+        const { full_name, date_of_birth, gender, mobile_no, email, address, medical_history, case_sheet_data } = req.body;
         if (!full_name) {
           return res.status(400).json({ error: 'Full name is required' });
         }
 
         const rows = await sql`
           INSERT INTO patients (
-            full_name, date_of_birth, gender, mobile_no, email, address, medical_history, created_by
+            full_name, date_of_birth, gender, mobile_no, email, address, medical_history, case_sheet_data, created_by
           ) VALUES (
             ${full_name}, ${date_of_birth || null}, ${gender || null}, ${mobile_no || null}, 
-            ${email || null}, ${address || null}, ${medical_history || null}, ${user ? user.id : null}
+            ${email || null}, ${address || null}, ${medical_history || null}, ${case_sheet_data || null}, ${user ? user.id : null}
           ) RETURNING *
         `;
 

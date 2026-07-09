@@ -124,6 +124,7 @@ body {
   color: #94a3b8;
   transition: all 0.2s ease;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .nav-item:hover, .nav-item.active {
@@ -722,3 +723,294 @@ textarea.form-control {
     text-transform: uppercase;
   }
 }
+
+/* ═══════════════════════════════════════
+   CASE SHEET & TABS EXTENSIONS
+   ═══════════════════════════════════════ */
+
+/* Wide Modal Variant */
+.modal-overlay .modal.modal-lg {
+  max-width: 950px;
+}
+
+/* Modal Form Tab Bar */
+.modal-tabs {
+  display: flex;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 20px;
+  gap: 8px;
+  padding-bottom: 2px;
+  overflow-x: auto;
+}
+.modal-tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  outline: none;
+  white-space: nowrap;
+}
+.modal-tab-btn:hover {
+  color: var(--text1);
+}
+.modal-tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+.tab-content-pane {
+  display: none;
+}
+.tab-content-pane.active {
+  display: block;
+}
+
+/* Form Sub-Sections Layout */
+.form-section-header {
+  font-size: 13.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--primary-dark);
+  margin-top: 24px;
+  margin-bottom: 14px;
+  border-bottom: 1.5px solid var(--border);
+  padding-bottom: 6px;
+  letter-spacing: 0.5px;
+}
+.form-section-header:first-of-type {
+  margin-top: 0;
+}
+
+/* Checkbox and Radio Grid Systems */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  user-select: none;
+}
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+.radio-group-flex {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  user-select: none;
+}
+.radio-label input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  accent-color: var(--primary);
+}
+
+/* ═══════ CLINICAL CASE SHEET PRINT VIEW ═══════ */
+.case-sheet-view {
+  font-family: 'Inter', sans-serif;
+  color: #1e293b;
+  padding: 10px;
+}
+.case-sheet-header {
+  text-align: center;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 16px;
+}
+.case-sheet-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary-dark);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.case-sheet-logo span.logo-leaf {
+  color: var(--success);
+}
+.case-sheet-sub {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-top: 4px;
+  letter-spacing: 1.5px;
+}
+.case-sheet-title {
+  font-size: 16px;
+  font-weight: 800;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 14px;
+  color: #0f172a;
+  background-color: #f1f5f9;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+}
+.case-sheet-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  background-color: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 24px;
+}
+.meta-item {
+  font-size: 13px;
+  color: var(--text2);
+}
+.meta-item strong {
+  color: var(--text1);
+}
+.case-sheet-section {
+  margin-bottom: 24px;
+}
+.case-sheet-section-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0f172a;
+  border-bottom: 1.5px solid #475569;
+  padding-bottom: 4px;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+.case-sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.case-sheet-full-width {
+  grid-column: span 2;
+}
+.case-sheet-field {
+  font-size: 13px;
+  line-height: 1.6;
+}
+.case-sheet-field strong {
+  color: var(--text2);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+}
+.case-sheet-field span.field-val {
+  display: block;
+  padding: 6px 10px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  min-height: 28px;
+}
+.case-sheet-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.case-sheet-list-item {
+  background-color: #e2e8f0;
+  color: #0f172a;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.case-sheet-signatures {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px dashed var(--border);
+}
+.sig-line {
+  border-top: 1px solid #475569;
+  text-align: center;
+  padding-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text2);
+}
+.print-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+  gap: 8px;
+}
+.view-case-sheet-link {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.view-case-sheet-link:hover {
+  color: var(--primary-dark);
+}
+
+/* Print CSS override */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #caseSheetViewModal, #caseSheetViewModal * {
+    visibility: visible;
+  }
+  #caseSheetViewModal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100% !important;
+    height: auto !important;
+    background: white !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  #caseSheetViewModal .modal {
+    box-shadow: none !important;
+    max-height: none !important;
+    overflow: visible !important;
+    border: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+  .print-btn-container, .modal-header, .modal-footer, .modal-close {
+    display: none !important;
+  }
+}
+

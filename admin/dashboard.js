@@ -204,6 +204,405 @@ async function loadOverview() {
 }
 
 // ─────── Tab 2: Patients Database ───────
+const PROTOCOL_DESCRIPTIONS = {
+  "Ozone Therapy": "Ozone is a powerful healer it improves oxygen delivery, boosts immunity, reduces inflammation & fights infections.",
+  "Acupuncture": "Ancient healing for modern life. Relieves pain, reduces stress and restores natural balance.",
+  "Naturopathy & Detox": "Natural therapies to detoxify, rejuvenate and strengthen the body naturally.",
+  "Diabetic Wound Care": "Advanced wound healing solutions for diabetic foot and chronic wounds.",
+  "Pain Management": "Non-surgical, drug-free approach to manage acute and chronic pain effectively.",
+  "Cupping Therapy": "Cupping Therapy improves blood circulation, relieves muscle tension, and supports natural detoxification.",
+  "Kansya Therapy": "Kansya Therapy is a traditional Indian therapeutic massage performed using a specially crafted Kansa metal tool to promote relaxation, circulation, detoxification, and holistic rejuvenation naturally.",
+  "Energy Medicine": "Energy Medicine focuses on restoring the body's natural energy balance to support physical, emotional, and holistic well-being.",
+  "Therapeutic Wellness Baths": "Traditional naturopathy therapies designed to support detoxification, relaxation, circulation, and holistic wellness naturally.",
+  "Therapeutic Massages": "Therapeutic massages designed to promote relaxation, improve circulation, relieve muscle tension, and support overall physical and mental wellness naturally."
+};
+
+function serializePatientForm() {
+  const form = document.getElementById('patientForm');
+  const data = {};
+  const case_sheet_data = {};
+
+  const inputs = form.querySelectorAll('input, select, textarea');
+  inputs.forEach(input => {
+    const name = input.name;
+    if (!name) return;
+
+    let value = input.value;
+    if (input.type === 'checkbox') {
+      value = input.checked;
+    } else if (input.type === 'radio') {
+      if (!input.checked) return;
+      value = input.value;
+    }
+
+    if (name.startsWith('cs_')) {
+      const fieldKey = name.replace('cs_', '');
+      case_sheet_data[fieldKey] = value;
+    } else {
+      data[name] = value;
+    }
+  });
+
+  data.case_sheet_data = JSON.stringify(case_sheet_data);
+  return data;
+}
+
+function deserializePatientForm(p) {
+  const form = document.getElementById('patientForm');
+  form.reset();
+
+  document.getElementById('patient_id').value = p.id;
+  document.getElementById('patient_name').value = p.full_name;
+  document.getElementById('patient_dob').value = p.date_of_birth ? p.date_of_birth.split('T')[0] : '';
+  document.getElementById('patient_gender').value = p.gender || '';
+  document.getElementById('patient_mobile').value = p.mobile_no || '';
+  document.getElementById('patient_email').value = p.email || '';
+  document.getElementById('patient_address').value = p.address || '';
+  document.getElementById('patient_history').value = p.medical_history || '';
+
+  form.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+
+  let caseSheet = {};
+  if (p.case_sheet_data) {
+    try {
+      caseSheet = typeof p.case_sheet_data === 'string' ? JSON.parse(p.case_sheet_data) : p.case_sheet_data;
+    } catch (e) {
+      console.error('Failed to parse case sheet data:', e);
+    }
+  }
+
+  for (const [key, value] of Object.entries(caseSheet)) {
+    const inputName = `cs_${key}`;
+    const elements = form.querySelectorAll(`[name="${inputName}"]`);
+    elements.forEach(element => {
+      if (element.type === 'checkbox') {
+        element.checked = !!value;
+      } else if (element.type === 'radio') {
+        if (element.value === value) {
+          element.checked = true;
+        }
+      } else {
+        element.value = value || '';
+      }
+    });
+  }
+}
+
+function renderCaseSheetHTML(p) {
+  const age = p.date_of_birth ? calculateAge(p.date_of_birth) + ' yrs' : '—';
+  const dob = p.date_of_birth ? formatDate(p.date_of_birth) : '—';
+  const gender = p.gender || '—';
+  
+  let cs = {};
+  if (p.case_sheet_data) {
+    try {
+      cs = typeof p.case_sheet_data === 'string' ? JSON.parse(p.case_sheet_data) : p.case_sheet_data;
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  function getCheckedItems(prefix, labelsMap) {
+    const list = [];
+    for (const [key, label] of Object.entries(labelsMap)) {
+      if (cs[prefix + key]) {
+        list.push(label);
+      }
+    }
+    return list;
+  }
+
+  const allergiesMap = {
+    'drug_allergy': 'Drug Allergy',
+    'environmental_allergy': 'Environmental Allergy',
+    'food_allergy': 'Food Allergy',
+    'no_known_allergies': 'No Known Allergies'
+  };
+  const checkedAllergies = [];
+  for (const [k, lbl] of Object.entries(allergiesMap)) {
+    if (cs[k]) checkedAllergies.push(lbl);
+  }
+
+  const famHistoryMap = {
+    'diabetes': 'Diabetes',
+    'hypertension': 'Hypertension',
+    'cardiac': 'Cardiac Disease',
+    'cancer': 'Cancer',
+    'thyroid': 'Thyroid Disorders',
+    'neuro': 'Neurological Disorders',
+    'genetic': 'Genetic Disorders',
+    'other': 'Other'
+  };
+  const checkedFamHistory = getCheckedItems('fam_', famHistoryMap);
+
+  const pastConditionsMap = {
+    'diabetes': 'Diabetes Mellitus',
+    'hypertension': 'Hypertension',
+    'thyroid': 'Thyroid Disorder',
+    'cardiac': 'Cardiac Disease',
+    'asthma': 'Asthma / Respiratory Disease',
+    'arthritis': 'Arthritis / Joint Disorders',
+    'neuro': 'Neurological Disorder',
+    'kidney': 'Kidney Disease',
+    'liver': 'Liver Disease',
+    'skin': 'Skin Disorders',
+    'autoimmune': 'Autoimmune Disorders',
+    'cancer': 'Cancer History',
+    'psychological': 'Psychological Disorders',
+    'other': 'Other'
+  };
+  const checkedPastConditions = getCheckedItems('past_', pastConditionsMap);
+
+  const recTherapiesMap = {
+    'ozone': 'Ozone Therapy',
+    'iv': 'IV Nutritional Therapy',
+    'physio': 'Physiotherapy',
+    'massage': 'Massage Therapy',
+    'cupping': 'Cupping Therapy',
+    'detox': 'Detoxification Therapy',
+    'pain': 'Pain Management Therapy',
+    'rehab': 'Rehabilitation Therapy',
+    'lifestyle': 'Lifestyle Modification Program',
+    'other': 'Other'
+  };
+  const checkedRecTherapies = getCheckedItems('rec_', recTherapiesMap);
+
+  const prevTreatmentsMap = {
+    'allopathy': 'Allopathy',
+    'ayurveda': 'Ayurveda',
+    'homeopathy': 'Homeopathy',
+    'physio': 'Physiotherapy',
+    'alternative': 'Alternative Therapy',
+    'none': 'None'
+  };
+  const checkedPrevTreatments = getCheckedItems('prev_', prevTreatmentsMap);
+
+  function displayVal(val) {
+    return val ? esc(val) : '<span style="color:var(--text3); font-style:italic;">—</span>';
+  }
+
+  function displayList(list) {
+    if (!list || list.length === 0) return '<span style="color:var(--text3); font-style:italic;">None listed</span>';
+    return `<div class="case-sheet-list">${list.map(item => `<span class="case-sheet-list-item">${esc(item)}</span>`).join('')}</div>`;
+  }
+
+  return `
+    <div class="case-sheet-view">
+      <div class="case-sheet-header">
+        <div class="case-sheet-logo">
+          🍃 OZONATURE
+        </div>
+        <div class="case-sheet-sub">THE HOLISTIC CARE</div>
+        <div class="case-sheet-title">Patient Case Sheet & Protocol</div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Patient Basic Details</div>
+        <div class="case-sheet-meta-grid">
+          <div class="meta-item"><strong>Patient Name:</strong> ${displayVal(p.full_name)}</div>
+          <div class="meta-item"><strong>Mobile Number:</strong> ${displayVal(p.mobile_no)}</div>
+          <div class="meta-item"><strong>Age / Gender:</strong> ${age} / ${gender}</div>
+          <div class="meta-item"><strong>Date of Birth:</strong> ${dob}</div>
+          <div class="meta-item"><strong>Email:</strong> ${displayVal(p.email)}</div>
+          <div class="meta-item"><strong>Address:</strong> ${displayVal(p.address)}</div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Clinical Complaint & History</div>
+        <div class="case-sheet-grid">
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Chief Complaint</strong>
+            <span class="field-val">${displayVal(cs.chief_complaint)}</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>History of Present Illness</strong>
+            <span class="field-val">${displayVal(cs.history_present_illness)}</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Clinical History Notes (Basic Profile)</strong>
+            <span class="field-val">${displayVal(p.medical_history)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-grid">
+          <div class="case-sheet-field">
+            <strong>Allergies</strong>
+            ${displayList(checkedAllergies)}
+            <div style="margin-top: 8px;"><strong>Allergies Details:</strong> ${displayVal(cs.allergies_details)}</div>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Family History</strong>
+            ${displayList(checkedFamHistory)}
+          </div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Lifestyle & Wellness Assessment</div>
+        <div class="case-sheet-grid">
+          <div class="case-sheet-field">
+            <strong>Smoking</strong>
+            <span class="field-val">${displayVal(cs.lifestyle_smoking)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Alcohol Consumption</strong>
+            <span class="field-val">${displayVal(cs.lifestyle_alcohol)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Sleep Quality</strong>
+            <span class="field-val">${displayVal(cs.lifestyle_sleep)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Physical Activity Level</strong>
+            <span class="field-val">${displayVal(cs.lifestyle_activity)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Water Intake</strong>
+            <span class="field-val">${displayVal(cs.lifestyle_water)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Diet Pattern</strong>
+            <span class="field-val">${displayVal(cs.lifestyle_diet)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Stress Level</strong>
+            <span class="field-val">${displayVal(cs.lifestyle_stress)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Vital Signs & Physical Assessment</div>
+        <div class="case-sheet-grid">
+          <div class="case-sheet-field">
+            <strong>Height / Weight / BMI</strong>
+            <span class="field-val">${displayVal(cs.vital_height)} cm / ${displayVal(cs.vital_weight)} kg / ${displayVal(cs.vital_bmi)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Blood Pressure / Pulse</strong>
+            <span class="field-val">${displayVal(cs.vital_bp)} / ${displayVal(cs.vital_pulse)} BPM</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Temperature / SpO2</strong>
+            <span class="field-val">${displayVal(cs.vital_temp)} °F / ${displayVal(cs.vital_spo2)} %</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Clinical Examination & Observations</strong>
+            <span class="field-val">${displayVal(cs.clinical_examination)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Past Medical Conditions & Treatments</div>
+        <div class="case-sheet-grid">
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Medical Conditions</strong>
+            ${displayList(checkedPastConditions)}
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Previous Surgeries / Hospitalizations</strong>
+            <span class="field-val">${displayVal(cs.past_surgeries)}</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Current Medications</strong>
+            <span class="field-val">${displayVal(cs.past_medications)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section">
+        <div class="case-sheet-section-title">Treatment Plan & Protocol</div>
+        <div class="case-sheet-grid">
+          <div class="case-sheet-field">
+            <strong>Selected Protocol / Service</strong>
+            <span class="field-val" style="font-weight: 700; color: var(--primary-dark);">${displayVal(cs.protocol_service)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Provisional Diagnosis / Clinical Impression</strong>
+            <span class="field-val">${displayVal(cs.provisional_diagnosis)}</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Protocol Description</strong>
+            <span class="field-val">${displayVal(cs.protocol_description)}</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Recommended Therapies</strong>
+            ${displayList(checkedRecTherapies)}
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Treatment Objectives</strong>
+            <span class="field-val">${displayVal(cs.treatment_objectives)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Other Conditions</strong>
+            <span class="field-val">${displayVal(cs.other_conditions)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Current Medication / Treatment</strong>
+            <span class="field-val">${displayVal(cs.current_medication_treatment)}</span>
+          </div>
+          <div class="case-sheet-field case-sheet-full-width">
+            <strong>Previous Treatments Tried</strong>
+            ${displayList(checkedPrevTreatments)}
+            <div style="margin-top: 8px;"><strong>Previous Treatments Details:</strong> ${displayVal(cs.prev_treatment_details)}</div>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Preferred Consultation Type</strong>
+            <span class="field-val">${displayVal(cs.pref_consultation_type)}</span>
+          </div>
+          <div class="case-sheet-field">
+            <strong>Preferred Date/Time</strong>
+            <span class="field-val">${displayVal(cs.pref_date_time)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="case-sheet-section" style="margin-top: 32px;">
+        <div class="case-sheet-section-title">Declaration & Signatures</div>
+        <p style="font-size: 11.5px; line-height: 1.5; color: var(--text2); font-style: italic; margin-bottom: 20px;">
+          I hereby declare that the medical information provided by me is true and complete to the best of my knowledge. I understand that withholding relevant medical information may affect the safety and effectiveness of my treatment. I authorize the healthcare professionals at Ozonature the Holistic Care to evaluate, examine, and provide appropriate wellness therapies and treatment procedures as clinically indicated.
+        </p>
+        
+        <div style="font-size: 13px; margin-bottom: 24px; background-color:#f8fafc; border:1px solid var(--border); border-radius:6px; padding:12px;">
+          <strong>Consent Status:</strong> ${cs.consent_agreed ? '✔️ Agreed & Confirmed' : '❌ Pending / Not Signed'}
+        </div>
+
+        <div class="case-sheet-signatures">
+          <div class="sig-line">
+            ${displayVal(cs.patient_signature)}<br>
+            Patient Signature (Date: ${cs.signature_date ? formatDate(cs.signature_date) : '—'})
+          </div>
+          <div class="sig-line">
+            ${displayVal(cs.consulting_doctor)}<br>
+            Consulting Doctor / Therapist Signature & Seal
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+window.viewCaseSheet = async function(id) {
+  try {
+    const res = await fetch(`${API_BASE}/patients/${id}`, { headers: authHeaders() });
+    const data = await res.json();
+    if (res.ok && data.success) {
+      const p = data.patient;
+      const html = renderCaseSheetHTML(p);
+      document.getElementById('caseSheetViewContent').innerHTML = html;
+      openModal('caseSheetViewModal');
+    } else {
+      showToast('Failed to retrieve case sheet data', 'error');
+    }
+  } catch (err) {
+    showToast('Failed to fetch case sheet details', 'error');
+  }
+};
+
 async function loadPatients() {
   const tbody = document.getElementById('patientsTableBody');
   tbody.innerHTML = '<tr><td colspan="7" class="loading-cell"><span class="spinner"></span> Querying patients database...</td></tr>';
@@ -232,8 +631,6 @@ async function loadPatients() {
     tbody.innerHTML = patients.map(p => {
       const age = p.date_of_birth ? calculateAge(p.date_of_birth) + ' yrs' : '—';
       const gender = p.gender || '—';
-      const address = p.address ? esc(p.address) : '—';
-      const history = p.medical_history ? esc(p.medical_history) : '<span style="color:var(--text3); font-style:italic;">No notes</span>';
 
       return `
         <tr>
@@ -242,7 +639,7 @@ async function loadPatients() {
           <td data-label="Mobile">${esc(p.mobile_no || '—')}</td>
           <td data-label="Age / Gender">${age} / ${gender}</td>
           <td data-label="Email">${esc(p.email || '—')}</td>
-          <td data-label="Key Medical Case History" style="max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${history}</td>
+          <td data-label="Case Sheet"><a href="#" class="view-case-sheet-link" onclick="window.viewCaseSheet(${p.id}); event.preventDefault();">View Case Sheet</a></td>
           <td data-label="Actions">
             <button class="action-btn" onclick="editPatient(${p.id})" title="Edit Profile">✏️</button>
             ${isAdmin ? `<button class="action-btn" onclick="deletePatient(${p.id})" title="Delete Profile" style="color:var(--error)">🗑️</button>` : ''}
@@ -261,10 +658,8 @@ async function loadPatients() {
   }
 }
 
-// Add / Edit patient modal actions
 async function savePatient(e) {
   e.preventDefault();
-  const form = document.getElementById('patientForm');
   const btn = document.getElementById('savePatientBtn');
   const originalText = btn.innerHTML;
   
@@ -272,8 +667,7 @@ async function savePatient(e) {
   btn.disabled = true;
 
   const id = document.getElementById('patient_id').value;
-  const formData = new FormData(form);
-  const data = Object.fromEntries(formData.entries());
+  const data = serializePatientForm();
 
   try {
     const url = id ? `${API_BASE}/patients/${id}` : `${API_BASE}/patients`;
@@ -308,15 +702,21 @@ window.editPatient = async function(id) {
     if (res.ok && data.success) {
       const p = data.patient;
       document.getElementById('patientModalTitle').textContent = 'Modify Patient Profile';
-      document.getElementById('patient_id').value = p.id;
-      document.getElementById('patient_name').value = p.full_name;
-      document.getElementById('patient_dob').value = p.date_of_birth ? p.date_of_birth.split('T')[0] : '';
-      document.getElementById('patient_gender').value = p.gender || '';
-      document.getElementById('patient_mobile').value = p.mobile_no || '';
-      document.getElementById('patient_email').value = p.email || '';
-      document.getElementById('patient_address').value = p.address || '';
-      document.getElementById('patient_history').value = p.medical_history || '';
       
+      deserializePatientForm(p);
+
+      // Show tab headers and apply modal-lg
+      document.getElementById('patientModalTabs').style.display = 'flex';
+      document.getElementById('patientModalContainer').classList.add('modal-lg');
+
+      // Reset tab status to "basic" by default
+      document.querySelectorAll('.modal-tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === 0);
+      });
+      document.querySelectorAll('.tab-content-pane').forEach((pane, idx) => {
+        pane.classList.toggle('active', idx === 0);
+      });
+
       openModal('patientModal');
     }
   } catch (err) {
@@ -911,11 +1311,43 @@ function initEventListeners() {
   document.getElementById('reconciliationForm').addEventListener('submit', processReconciliation);
   document.getElementById('staffForm').addEventListener('submit', saveStaff);
 
+  // Modal form tab clicks
+  document.querySelectorAll('.modal-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-form-tab');
+      document.querySelectorAll('.modal-tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.tab-content-pane').forEach(pane => {
+        pane.classList.toggle('active', pane.id === `form-tab-${targetTab}`);
+      });
+    });
+  });
+
+  // Protocol Selection Change listener
+  document.getElementById('cs_protocol_service').addEventListener('change', (e) => {
+    const selected = e.target.value;
+    const descTextarea = document.getElementById('cs_protocol_description');
+    if (selected && PROTOCOL_DESCRIPTIONS[selected]) {
+      descTextarea.value = PROTOCOL_DESCRIPTIONS[selected];
+    } else {
+      descTextarea.value = '';
+    }
+  });
+
   // Add triggers
   document.getElementById('addPatientBtn').addEventListener('click', () => {
     document.getElementById('patientForm').reset();
     document.getElementById('patient_id').value = '';
     document.getElementById('patientModalTitle').textContent = 'Register New Patient';
+
+    // Hide tab headers and remove modal-lg
+    document.getElementById('patientModalTabs').style.display = 'none';
+    document.getElementById('patientModalContainer').classList.remove('modal-lg');
+
+    // Activate basic pane only
+    document.querySelectorAll('.tab-content-pane').forEach((pane) => {
+      pane.classList.toggle('active', pane.id === 'form-tab-basic');
+    });
+
     openModal('patientModal');
   });
 

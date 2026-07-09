@@ -32,6 +32,7 @@ module.exports = async function handler(req, res) {
         email VARCHAR(100),
         address TEXT,
         medical_history TEXT,
+        case_sheet_data TEXT,
         created_by INT REFERENCES users(id) ON DELETE SET NULL,
         created_at TIMESTAMP DEFAULT NOW(),
         updated_at TIMESTAMP DEFAULT NOW()
