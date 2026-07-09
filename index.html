@@ -4,35 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Care Hospital — Professional Medical Care</title>
+    <title>Center For Quality Life — Non-Toxic Healers</title>
     <meta name="description"
-        content=" Care Hospital provides comprehensive consultation, diagnostics, and patient management services with deep teal aesthetics.">
+        content="Center For Quality Life provides advanced holistic therapies, hyperbaric oxygen, ozone, and natural treatments for complete health transformation.">
     <link rel="stylesheet" href="index.css">
     <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏥</text></svg>">
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍃</text></svg>">
 </head>
 
 <body>
-
-    <!-- Background Pattern -->
-    <div class="bg-pattern"></div>
 
     <!-- ═══════════ NAVBAR ═══════════ -->
     <nav class="navbar" id="navbar">
         <div class="container">
             <a href="#" class="nav-brand">
-                <div class="logo-icon">RG</div>
-                <div class="brand-text">
-                    Care
-                    <span>Hospital & Diagnostics</span>
+                <div class="logo-container">
+                    <div class="logo-box">Q</div>
+                    <div class="logo-text">
+                        Center For Quality Life
+                        <span>Non - Toxic Healers</span>
+                    </div>
                 </div>
             </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#home" class="active">Home</a></li>
                 <li><a href="#services">Services</a></li>
-                <li><a href="#register">Pre-Register</a></li>
-                <li><a href="admin/" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Staff
-                        Portal</a></li>
+                <li><a href="#why-choose-us">Why Choose Us</a></li>
+                <li><a href="#process">Our Process</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#register" class="btn btn-primary" style="color:#fff; padding: 8px 16px; font-size:13px;">Pre-Register</a></li>
+                <li><a href="admin/" class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;">Staff Portal</a></li>
             </ul>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
                 <span></span><span></span><span></span>
@@ -40,40 +41,221 @@
         </div>
     </nav>
 
-    <!-- ═══════════ HERO + PRE-REGISTRATION FORM ═══════════ -->
+    <!-- ═══════════ HERO SECTION ═══════════ -->
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-badge">
-                    <span class="dot"></span>
-                    Providing 24/7 Quality Healthcare
-                </div>
+                <div class="hero-subtitle">Welcome to Center For Quality Life</div>
                 <h1>
-                    Dedicated to Your <span class="highlight">Health</span><br>
-                    And Complete Well-being
+                    Advanced Holistic<br>
+                    Therapies for Complete<br>
+                    Health Transformation
                 </h1>
                 <p>
-                    Care Hospital offers state-of-the-art medical consulting, inpatient services,
-                    and specialized diagnostic care. Register online to fast-track your clinical visit.
+                    Experience innovative natural therapies combining advanced technology and personalized care 
+                    to restore balance, enhance healing, and elevate overall physical, mental, and emotional well-being.
                 </p>
-                <div class="hero-stats">
-                    <div class="hero-stat">
-                        <div class="number">5000+</div>
-                        <div class="label">Patients Cured</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="number">25+</div>
-                        <div class="label">Specialist Doctors</div>
-                    </div>
-                    <div class="hero-stat">
-                        <div class="number">100%</div>
-                        <div class="label">Care & Compassion</div>
-                    </div>
+                <div class="hero-actions">
+                    <a href="#register" class="btn btn-primary">
+                        <span style="font-size:16px;">📅</span> MAKE AN APPOINTMENT
+                    </a>
+                    <a href="#services" class="btn btn-outline">GET STARTED</a>
                 </div>
             </div>
 
-            <!-- ═══════ PRE-REGISTRATION / ENQUIRY FORM ═══════ -->
-            <div class="enquiry-card" id="register">
+            <div class="hero-image-wrapper">
+                <div class="hero-bg-shape"></div>
+                <!-- Doctor generated image -->
+                <img src="assets/hero_doctor.png" alt="Clinical Specialist" class="hero-image">
+                
+                <!-- Floating overlays -->
+                <div class="floating-badge badge-doctor">
+                    <div class="badge-icon">🩺</div>
+                    <div class="badge-info">
+                        <div class="badge-title">Expert Doctor</div>
+                        <div class="badge-subtitle">Skilled Compassionate Experts</div>
+                    </div>
+                </div>
+                
+                <div class="floating-badge badge-shop">
+                    <div class="badge-icon">🛒</div>
+                    <div class="badge-info">
+                        <div class="badge-title">Shop Now</div>
+                        <div class="badge-subtitle">Driven by Excellent Outcomes</div>
+                    </div>
+                </div>
+
+                <div class="floating-badge badge-experience">
+                    <div class="badge-icon">🏆</div>
+                    <div class="badge-info">
+                        <div class="badge-title">10+ Years</div>
+                        <div class="badge-subtitle">Of Dedicated Experience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ SERVICES SECTION ═══════════ -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Advanced Therapies for Total Wellness</h2>
+                <p>We offer advanced holistic therapies combining natural healing and modern technology to treat chronic conditions, enhance recovery, improve vitality, and support complete well-being.</p>
+            </div>
+            <div class="services-grid">
+                <!-- Card 1 -->
+                <div class="service-card">
+                    <div class="service-icon-box">💨</div>
+                    <h3>Hyperbaric Oxygen Therapy (HBOT)</h3>
+                    <p>Enhances oxygen delivery to tissues, accelerates healing, reduces inflammation, supports recovery from chronic conditions, injuries, neurological disorders, and non-healing wounds.</p>
+                    <button class="btn-knowmore" onclick="location.href='#register'">KNOW MORE ➔</button>
+                </div>
+                <!-- Card 2 -->
+                <div class="service-card">
+                    <div class="service-icon-box">🩸</div>
+                    <h3>Ozone Therapy</h3>
+                    <p>Boosts immunity, improves circulation, fights infections, reduces inflammation, and supports detoxification for chronic illnesses, autoimmune conditions, and overall wellness.</p>
+                    <button class="btn-knowmore" onclick="location.href='#register'">KNOW MORE ➔</button>
+                </div>
+                <!-- Card 3 -->
+                <div class="service-card">
+                    <div class="service-icon-box">🧪</div>
+                    <h3>Molecular Hydrogen Therapy</h3>
+                    <p>Provides powerful antioxidant support, reduces oxidative stress, enhances cellular health, improves energy levels, and supports brain, metabolic, and cardiovascular function.</p>
+                    <button class="btn-knowmore" onclick="location.href='#register'">KNOW MORE ➔</button>
+                </div>
+                <!-- Card 4 -->
+                <div class="service-card">
+                    <div class="service-icon-box">💧</div>
+                    <h3>Vitamin Infusion Therapy</h3>
+                    <p>Delivers essential vitamins and minerals directly into the bloodstream to improve immunity, energy, hydration, recovery, and overall cellular performance.</p>
+                    <button class="btn-knowmore" onclick="location.href='#register'">KNOW MORE ➔</button>
+                </div>
+                <!-- Card 5 -->
+                <div class="service-card">
+                    <div class="service-icon-box">🍃</div>
+                    <h3>Naturopathy Treatments</h3>
+                    <p>Focuses on natural healing using nutrition, lifestyle guidance, detoxification, and therapies that restore balance, strengthen immunity, and promote long-term wellness.</p>
+                    <button class="btn-knowmore" onclick="location.href='#register'">KNOW MORE ➔</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ WHY CHOOSE US ═══════════ -->
+    <section class="why-choose-us" id="why-choose-us">
+        <div class="container">
+            <div class="wcu-image-container">
+                <!-- Backup therapy photo from Unsplash -->
+                <img src="https://images.unsplash.com/photo-1519824145371-296894a0daa9?auto=format&fit=crop&q=80&w=800" alt="Natural Therapy Treatment" class="wcu-image">
+                <div class="wcu-play-btn" onclick="location.href='#register'"></div>
+                <div class="wcu-experience-card">
+                    <div class="wcu-experience-num">
+                        10+
+                        <span>Years Exp</span>
+                    </div>
+                    <div class="wcu-experience-desc">
+                        Personalized holistic therapies with advanced care and proven results.
+                    </div>
+                </div>
+            </div>
+            
+            <div class="wcu-content">
+                <div class="hero-subtitle">Why Choose Us</div>
+                <h2>Transforming Health Through Advanced Natural Therapies</h2>
+                <p>We deliver personalized holistic therapies using advanced technology, expert care, and proven approaches to support healing, wellness, and long-term health.</p>
+                
+                <div class="wcu-pillars">
+                    <!-- Pillar 1 -->
+                    <div class="wcu-pillar">
+                        <h4>⚡ Advanced Therapies</h4>
+                        <p>Cutting-edge technologies combined with natural treatments for safe, healing.</p>
+                    </div>
+                    <!-- Pillar 2 -->
+                    <div class="wcu-pillar">
+                        <h4>👤 Personalized Care</h4>
+                        <p>Customized treatment plans designed around individual health goals and conditions.</p>
+                    </div>
+                    <!-- Pillar 3 -->
+                    <div class="wcu-pillar">
+                        <h4>👨‍⚕️ Expert Professionals</h4>
+                        <p>Experienced practitioners delivering compassionate, skilled care with precision.</p>
+                    </div>
+                    <!-- Pillar 4 -->
+                    <div class="wcu-pillar">
+                        <h4>☯️ Holistic Approach</h4>
+                        <p>Treating physical, mental, and emotional health for long-term wellness balance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ PROCESS SECTION ═══════════ -->
+    <section class="process-section" id="process">
+        <div class="container">
+            <div class="section-header">
+                <h2>Holistic Healing</h2>
+                <p>Our process combines expert consultation, personalized therapies, guided sessions, and continuous monitoring to deliver safe, effective, and long-term wellness results.</p>
+            </div>
+            <div class="process-grid">
+                <!-- Step 1 -->
+                <div class="process-card">
+                    <div class="process-img-box">📋</div>
+                    <h3>Consultation & Assessment</h3>
+                    <p>We begin with a detailed consultation to understand health concerns, goals, medical history, and create a personalized therapy roadmap.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="process-card">
+                    <div class="process-img-box">🧠</div>
+                    <h3>Customized Treatment Plan</h3>
+                    <p>Our experts design a wellness plan combining advanced therapies and natural treatments aligned with individual needs and conditions.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="process-card">
+                    <div class="process-img-box">🛡️</div>
+                    <h3>Guided Therapy Sessions</h3>
+                    <p>Clients undergo carefully monitored therapy sessions using state-of-the-art equipment under expert supervision for safe, effective healing.</p>
+                </div>
+                <!-- Step 4 -->
+                <div class="process-card">
+                    <div class="process-img-box">📈</div>
+                    <h3>Progress & Support</h3>
+                    <p>We continuously track results, adjust therapies as needed, and provide ongoing guidance to ensure optimal outcomes and long-term wellness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ TESTIMONIALS SECTION ═══════════ -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="testimonials-content">
+                <div class="hero-subtitle">Customer Testimonials</div>
+                <h2>Real Stories. Real Healing. Real Results.</h2>
+                <p>Hear from clients who experienced improved health, recovery, and overall well-being through our advanced holistic therapies.</p>
+                
+                <div class="testimonial-quote-box">
+                    <div class="quote-circle-badge">💬</div>
+                    <div class="stars-rating">⭐⭐⭐⭐⭐</div>
+                    <p class="testimonial-text">
+                        "Excellent experience with HBOT, Ozone, and Acupuncture therapies. Doctors clearly explain procedures, staff is supportive, and the environment feels professional, calm, healing, and highly recommended."
+                    </p>
+                    <div class="testimonial-author">Kola Kavya Sri</div>
+                </div>
+            </div>
+            <div>
+                <!-- Doctor testimonial photo from Unsplash -->
+                <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=800" alt="Specialist Consultant" class="testimonial-doctor-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════ PRE-REGISTRATION / ENQUIRY SECTION ═══════════ -->
+    <section class="registration-section" id="register">
+        <div class="container">
+            <div class="enquiry-card">
                 <div id="registrationFormContent">
                     <h2>📋 Patient Pre-Registration</h2>
                     <p class="form-desc">Fill in details to create a patient profile before your consultation.</p>
@@ -137,70 +319,90 @@
         </div>
     </section>
 
-    <!-- ═══════════ SERVICES ═══════════ -->
-    <section class="services" id="services">
-        <div class="container">
-            <h2 class="section-title">Clinical Specialties & Services</h2>
-            <p class="section-subtitle">Comprehensive medical services with skilled practitioners and high-end
-                equipment.</p>
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="icon">🩺</div>
-                    <h3>General Medicine</h3>
-                    <p>Comprehensive primary health assessments, diagnostic investigation, and effective medical
-                        treatment protocols.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">❤️</div>
-                    <h3>Cardiology Care</h3>
-                    <p>Cardiology consultations, ECG, echo screenings, and proactive heart health evaluations by
-                        experienced specialists.</p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">🧬</div>
-                    <h3>Diagnostic Laboratory</h3>
-                    <p>Fully automated hematology, biochemistry, and pathological laboratory tests with rapid reporting.
-                    </p>
-                </div>
-                <div class="service-card">
-                    <div class="icon">🩹</div>
-                    <h3>Emergency & Trauma</h3>
-                    <p>Round-the-clock emergency support, trauma intervention, and immediate specialist backup
-                        operations.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- ═══════════ FOOTER ═══════════ -->
     <footer class="hospital-footer">
         <div class="container">
-            <div class="hospital-footer-grid">
-                <div class="footer-col">
-                    <h4> Care</h4>
-                    <p style="margin-top:10px; font-size:13px; line-height:1.6;">
-                        Care Hospital is dedicated to standardizing healthcare access, patient intake lead capture,
-                        staff operations, and billing reconciliation records.
-                    </p>
+            <div class="footer-top-brand">
+                <div class="logo-container">
+                    <div class="logo-box">Q</div>
+                    <div class="logo-text">
+                        Center For Quality Life
+                        <span>Non - Toxic Healers</span>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h4>Hours of Operation</h4>
-                    <ul style="font-size:13px;">
-                        <li>Emergency Care: 24 Hours / 7 Days</li>
-                        <li>Outpatient (OPD): 9:00 AM - 8:00 PM</li>
-                        <li>Diagnostic Lab: 7:00 AM - 10:00 PM</li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Hospital Portal</h4>
-                    <ul>
-                        <li><a href="admin/">Staff Login Portal</a></li>
-                        <li><a href="#register">Patient Intake</a></li>
-                    </ul>
+                <p>Advanced holistic therapies delivering personalized care and natural healing solutions.</p>
+                <div class="social-links">
+                    <a href="#" class="social-btn" aria-label="Facebook">f</a>
+                    <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+                    <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+                    <a href="#" class="social-btn" aria-label="YouTube">▶</a>
                 </div>
             </div>
+            
+            <div class="hospital-footer-grid">
+                <!-- Col 1 -->
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#why-choose-us">About Us</a></li>
+                        <li><a href="#services">Our Services</a></li>
+                        <li><a href="#testimonials">Shop Now</a></li>
+                        <li><a href="#register">Contact Us</a></li>
+                    </ul>
+                </div>
+                <!-- Col 2 -->
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#services">Hyperbaric Oxygen Therapy</a></li>
+                        <li><a href="#services">Ozone Therapy</a></li>
+                        <li><a href="#services">Molecular Hydrogen Therapy</a></li>
+                        <li><a href="#services">Vitamin Infusion Therapy</a></li>
+                        <li><a href="#services">Naturopathy Therapy</a></li>
+                    </ul>
+                </div>
+                <!-- Col 3 -->
+                <div class="footer-col">
+                    <h4>Reach Us</h4>
+                    <ul class="reach-us-list">
+                        <li>
+                            <span class="reach-us-icon">📞</span>
+                            <span>+91 8688932150<br>+91 7207717116</span>
+                        </li>
+                        <li>
+                            <span class="reach-us-icon">✉️</span>
+                            <span>info@cfqlife.com</span>
+                        </li>
+                        <li>
+                            <span class="reach-us-icon">📍</span>
+                            <span>Center For Quality Life, Quinn Apartment, 8-2-268/28/N, Rd Number 2, Sagar Society, Sri Nagar Colony, Aurora Colony, Banjara Hills, Hyderabad, Telangana 500034</span>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Col 4 -->
+                <div class="footer-col">
+                    <div class="operating-hours-box">
+                        <h3>Operating Hours</h3>
+                        <div class="operating-hours-row">
+                            <span>Mon - Wed</span>
+                            <strong>7 AM - 6 PM</strong>
+                        </div>
+                        <div class="operating-hours-row">
+                            <span>Thu - Sat</span>
+                            <strong>7 AM - 6 PM</strong>
+                        </div>
+                        <div class="operating-hours-row">
+                            <span>Sunday</span>
+                            <strong>Closed</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="footer-bottom">
-                <p>&copy; 2026 Care Hospital. All rights reserved. | Developed & Maintained by Inspenox</p>
+                <p>Copyright &copy; 2025 Center For Quality Life. All rights reserved.</p>
+                <p>Designed and Developed by <a href="#">Galaxy Tech Solutions</a></p>
             </div>
         </div>
     </footer>
