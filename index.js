@@ -20,17 +20,36 @@ function initNavbar() {
   // Add background shadow on scroll
   window.addEventListener('scroll', () => {
     navbar.classList.toggle('scrolled', window.scrollY > 40);
+    
+    // Close mobile menu on scroll
+    if (links.classList.contains('open')) {
+      links.classList.remove('open');
+      toggle.classList.remove('open');
+    }
   });
 
   // Mobile menu toggle
   if (toggle && links) {
-    toggle.addEventListener('click', () => {
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
       links.classList.toggle('open');
+      toggle.classList.toggle('open');
     });
 
     // Close mobile menu when links are clicked
     links.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => links.classList.remove('open'));
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+      });
+    });
+
+    // Close mobile menu when clicking outside on the page
+    document.addEventListener('click', (e) => {
+      if (links.classList.contains('open') && !links.contains(e.target) && !toggle.contains(e.target)) {
+        links.classList.remove('open');
+        toggle.classList.remove('open');
+      }
     });
   }
 }

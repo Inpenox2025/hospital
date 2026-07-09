@@ -5,20 +5,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap');
 
 :root {
-  --primary: #0ea5e9;
-  --primary-dark: #0369a1;
-  --primary-light: #38bdf8;
-  --primary-glow: rgba(14, 165, 233, 0.08);
+  --primary: #00bba8;
+  --primary-dark: #008d7e;
+  --primary-light: #2ef2dd;
+  --primary-glow: rgba(0, 187, 168, 0.08);
 
-  --bg-gradient: linear-gradient(135deg, #ecfeff 0%, #e0e7ff 100%);
+  --gradient-main: linear-gradient(135deg, #0090f7 0%, #00ccbb 50%, #20e383 100%);
+  --gradient-btn: linear-gradient(135deg, #0090f7, #00bba8);
+
+  --bg-gradient: linear-gradient(135deg, #f0fbfb 0%, #f0fdf9 100%);
   --bg-white: #ffffff;
   --border: #e2e8f0;
   
-  --text1: #0f172a;
-  --text2: #334155;
-  --text3: #64748b;
+  --text1: #0b1f24;
+  --text2: #2d3e42;
+  --text3: #607377;
   
-  --success: #10b981;
+  --success: #20e383;
   --warning: #f59e0b;
   --error: #ef4444;
 
@@ -26,9 +29,9 @@
   --radius-md: 14px;
   --radius-lg: 24px;
   
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
-  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -6px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.01);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -6px rgba(0, 0, 0, 0.02);
 }
 
 * {
@@ -43,7 +46,7 @@ html {
 
 body {
   font-family: 'Inter', sans-serif;
-  background-color: #faf5ff;
+  background-color: #f6fcfb;
   color: var(--text2);
   line-height: 1.6;
 }
@@ -83,12 +86,12 @@ a {
 }
 
 .btn-primary {
-  background-color: var(--primary);
+  background: var(--gradient-btn);
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: var(--primary-dark);
+  background: linear-gradient(135deg, #008d7e, #0090f7);
   transform: translateY(-2px);
 }
 
@@ -200,6 +203,19 @@ a {
   height: 3px;
   background-color: var(--text1);
   border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.nav-toggle.open span:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.nav-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.open span:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
 }
 
 /* ═══════════ HERO SECTION ═══════════ */
